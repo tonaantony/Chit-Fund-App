@@ -1,0 +1,30 @@
+server:
+  port: 8080 # API Gateway runs on port 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes: # Define routes here
+        - id: user-service-route
+          uri: lb://USER-SERVICE # Load balancer route for user-service
+          predicates:
+            - Path=/users/**
+        - id: group-service-route
+          uri: lb://GROUP-SERVICE # Load balancer route for group-service
+          predicates:
+            - Path=/groups/**
+        - id: auth-service-route
+          uri: lb://AUTH-SERVICE # Load balancer route for auth-service
+          predicates:
+            - Path=/auth/**
+        - id: transaction-service-route
+          uri: lb://TRANSACTION-SERVICE
+          predicates:
+            - Path=/transactions/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Point to Discovery Server
