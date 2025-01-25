@@ -5,7 +5,7 @@ spring:
   application:
     name: transaction-service
   datasource:
-    url: jdbc:mysql://localhost:3306/chitfunds
+    url: jdbc:mysql://localhost:3306/chitfund
     username: root
     password: pass@word1
     driver-class-name: com.mysql.cj.jdbc.Driver
