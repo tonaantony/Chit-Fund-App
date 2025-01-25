@@ -1,0 +1,18 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: ai-service
+
+gemini:
+  api:
+    key: AIzaSyA0bOVeDUf7N2cUysxm0NvZFO78sKf8_5g
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Discovery Server
+
+
+
