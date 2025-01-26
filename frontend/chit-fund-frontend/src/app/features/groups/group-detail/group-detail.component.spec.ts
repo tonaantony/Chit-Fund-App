@@ -11,7 +11,7 @@ describe('GroupDetailComponent', () => {
       imports: [GroupDetailComponent]
     })
     .compileComponents();
-
+    
     fixture = TestBed.createComponent(GroupDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

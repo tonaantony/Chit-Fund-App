@@ -11,7 +11,7 @@ describe('GroupListComponent', () => {
       imports: [GroupListComponent]
     })
     .compileComponents();
-
+    
     fixture = TestBed.createComponent(GroupListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
