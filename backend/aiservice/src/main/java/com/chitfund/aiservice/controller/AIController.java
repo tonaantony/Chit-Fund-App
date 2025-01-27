@@ -9,6 +9,7 @@ import com.chitfund.aiservice.service.AIService;
 
 @RestController
 @RequestMapping("/api/ai")
+@CrossOrigin()
 public class AIController {
 
     @Autowired

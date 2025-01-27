@@ -1,0 +1,37 @@
+<!-- src/app/features/chat/chat.component.html -->
+
+<div class="chat-container mat-elevation-z2">
+  <div class="chat-messages" #messageContainer>
+    @for (message of messages(); track message.timestamp) {
+      <div [ngClass]="{'message': true, 'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+        <div class="message-content">
+          <p>{{ message.content }}</p>
+          <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
+        </div>
+      </div>
+    }
+    
+    @if (loading()) {
+      <div class="bot-message">
+        <div class="message-content">
+          <mat-spinner diameter="20"></mat-spinner>
+        </div>
+      </div>
+    }
+  </div>
+  
+  <div class="chat-input">
+    <mat-form-field appearance="outline" class="input-field">
+      <input matInput
+             [ngModel]="newMessage()"
+             (ngModelChange)="newMessage.set($event)"
+             placeholder="Type your message..."
+             (keyup.enter)="sendMessage()">
+    </mat-form-field>
+    <button mat-fab color="primary" 
+            (click)="sendMessage()" 
+            [disabled]="!newMessage().trim()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

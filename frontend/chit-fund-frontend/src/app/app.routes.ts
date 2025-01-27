@@ -1,3 +1,8 @@
-import { Routes } from '@angular/router';
+// src/app/app.routes.ts
 
-export const routes: Routes = [];
+import { Routes } from '@angular/router';
+import { ChatComponent } from '@app/features/ai/ai-chat/ai-chat.component';
+
+export const routes: Routes = [
+  { path: 'ai-chat', component: ChatComponent },
+];

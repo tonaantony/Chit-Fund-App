@@ -16,7 +16,20 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
+<<<<<<< HEAD
     "module": "ES2022"
+=======
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": ["app/*"]
+    },
+>>>>>>> 18bbc0f (implemented ai chatbot frontend)
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
