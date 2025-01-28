@@ -1,13 +1,11 @@
 package com.chitfund.userservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.chitfund.userservice.dto.AddGroupDTO;
 import com.chitfund.userservice.dto.RespondToJoinRequestDTO;
-import com.chitfund.userservice.dto.Transaction;
 import com.chitfund.userservice.model.User;
 import com.chitfund.userservice.service.UserService;
 

@@ -2,13 +2,11 @@ package com.chitfund.userservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.chitfund.userservice.dto.Group;
-import com.chitfund.userservice.dto.GroupResponse;
 import com.chitfund.userservice.dto.Transaction;
 import com.chitfund.userservice.model.User;
 import com.chitfund.userservice.repository.UserRepository;
@@ -24,8 +22,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // @Autowired
-    // private RestTemplate restTemplate;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
@@ -33,64 +31,10 @@ public class UserService {
     private final String GROUP_SERVICE_BASE_URL = "http://localhost:8083/api/groups";
     private final String TRANSACTION_SERVICE_BASE_URL = "http://localhost:8084/api/transactions";
 
-    // Assuming you have a Group class that matches the structure of the group object in the response
-public List<String> getAllGroupsForUser(String userId) {
-    List<String> userGroups = new ArrayList<>();
-    
-    try {
-        // Step 1: Fetch all groups from GroupService (now mapping to a List<Group>)
-        List<Group> allGroups = webClientBuilder.baseUrl("http://localhost:8083")
-                .build()
-                .get()
-                .uri("/api/groups")
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Group>>() {})
-                .block();
-    
-        // Step 2: Check if the user is a participant in any of the groups
-        if (allGroups != null) {
-            for (Group group : allGroups) {
-                try {
-                    // Check if the userId is in the participants list
-                    if (group.getParticipants() != null && group.getParticipants().contains(userId)) {
-                        // Add the group details to the user's group list
-                        userGroups.add(group.getGroupName() + " - " + group.getDescription());
-                    }
-                } catch (Exception e) {
-                    System.err.println("Error checking participants for groupId: " + group.getGroupId() + ". " + e.getMessage());
-                }
-            }
-        }
-    
-    } catch (Exception e) {
-        throw new RuntimeException("Failed to fetch groups for user: " + e.getMessage());
-    }
-    
-    // Step 3: Return the list of groups the user is a part of
-    return userGroups.isEmpty() ? List.of("No groups found") : userGroups;
-}
-
-    
-    
-    
-    
-    
-
-    public List<Transaction> getUserTransactions(String userId) {
-        return webClientBuilder.build()
-                .get()
-                .uri(TRANSACTION_SERVICE_BASE_URL + "/user/" + userId)
-                .retrieve()
-                .onStatus(
-                    status -> status.is4xxClientError(),
-                    response -> Mono.error(new RuntimeException("Transactions not found"))
-                )
-                .bodyToMono(new ParameterizedTypeReference<List<Transaction>>() {})
-                .block();
-    }
 
     public User registerUser(User userData) {
         userData.setUserId(generateUserId());
+        userData.setPassword(passwordEncoder.encode(userData.getPassword()));
         return userRepository.save(userData);
     }
 
@@ -133,6 +77,42 @@ public List<String> getAllGroupsForUser(String userId) {
         existingUser.setUserAddress(updatedData.getUserAddress());
 
         return userRepository.save(existingUser);
+    }
+
+    public List<String> getAllGroupsForUser(String userId) {
+        List<String> userGroups = new ArrayList<>();
+        
+        try {
+            // Step 1: Fetch all groups from GroupService (now mapping to a List<Group>)
+            List<Group> allGroups = webClientBuilder.baseUrl("http://localhost:8083")
+                    .build()
+                    .get()
+                    .uri("/api/groups")
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<List<Group>>() {})
+                    .block();
+        
+            // Step 2: Check if the user is a participant in any of the groups
+            if (allGroups != null) {
+                for (Group group : allGroups) {
+                    try {
+                        // Check if the userId is in the participants list
+                        if (group.getParticipants() != null && group.getParticipants().contains(userId)) {
+                            // Add the group details to the user's group list
+                            userGroups.add(group.getGroupName() + " - " + group.getDescription());
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error checking participants for groupId: " + group.getGroupId() + ". " + e.getMessage());
+                    }
+                }
+            }
+        
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch groups for user: " + e.getMessage());
+        }
+        
+        // Step 3: Return the list of groups the user is a part of
+        return userGroups.isEmpty() ? List.of("No groups found") : userGroups;
     }
 
 
@@ -181,6 +161,19 @@ public List<String> getAllGroupsForUser(String userId) {
             throw new RuntimeException("User not found");
         }
         return user.getUserId();
+    }
+
+    public List<Transaction> getUserTransactions(String userId) {
+        return webClientBuilder.build()
+                .get()
+                .uri(TRANSACTION_SERVICE_BASE_URL + "/user/" + userId)
+                .retrieve()
+                .onStatus(
+                    status -> status.is4xxClientError(),
+                    response -> Mono.error(new RuntimeException("Transactions not found"))
+                )
+                .bodyToMono(new ParameterizedTypeReference<List<Transaction>>() {})
+                .block();
     }
 }
 

@@ -64,19 +64,6 @@ public class GroupController {
         return "Join request failed";
     }
 
-    
-
-    // Add participant to the group (only the organizer can do this)
-    // @PostMapping("/{groupId}/add-participant")
-    // public String addParticipant(@PathVariable String groupId, @RequestBody AddParticipantDTO addParticipantDTO,
-    //                              @RequestHeader("X-User-Id") String organizerId) {
-    //     boolean success = groupService.addParticipant(groupId, addParticipantDTO.getUserId(), organizerId);
-    //     if (success) {
-    //         return "Participant added successfully";
-    //     }
-    //     return "Failed to add participant";
-    // }
-
     @PostMapping("/{groupId}/add-participant")
     public ResponseEntity<?> addParticipant(
         @PathVariable String groupId, 

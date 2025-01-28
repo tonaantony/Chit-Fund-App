@@ -28,131 +28,16 @@ public class GroupService {
     private final String USER_SERVICE_BASE_URL = "http://localhost:8082/api/users";
     private final String TRANSACTION_SERVICE_BASE_URL = "http://localhost:8084/api/transactions";
 
-    // public boolean addParticipant(String groupId, String userId, String organizerId) {
-    //     Group group = groupRepository.findByGroupId(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
-
-    //     // Validate user exists in UserService
-    //     UserDTO user = webClientBuilder.build()
-    //             .get()
-    //             .uri(USER_SERVICE_BASE_URL + "/" + userId)
-    //             .retrieve()
-    //             .onStatus(
-    //                 status -> status.is4xxClientError(),
-    //                 response -> Mono.error(new RuntimeException("User not found"))
-    //             )
-    //             .bodyToMono(UserDTO.class)
-    //             .block();
-
-    //     if (group.getOrganizerId().equals(organizerId) && user != null) {
-    //         group.getParticipants().add(userId);
-    //         groupRepository.save(group);
-
-    //         // Optionally, log a transaction
-    //         Transaction transaction = new Transaction();
-    //         transaction.setUserId(userId);
-    //         transaction.setGroupId(groupId);
-    //         transaction.setTransactionType("GROUP_JOIN");
-
-    //         webClientBuilder.build()
-    //                 .post()
-    //                 .uri(TRANSACTION_SERVICE_BASE_URL)
-    //                 .bodyValue(transaction)
-    //                 .retrieve()
-    //                 .onStatus(
-    //                     status -> status.is5xxServerError(),
-    //                     response -> Mono.error(new RuntimeException("Transaction creation failed"))
-    //                 )
-    //                 .bodyToMono(Void.class)
-    //                 .block();
-
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // In GroupService.java
-    // Add this method to GroupService to handle adding a participant once the join request is accepted
-    public boolean acceptJoinRequest(String groupId, String userId) {
-        Group group = groupRepository.findByGroupId(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
-
-        // Check if the user is in the join requests list
-        if (group.getJoinRequests().contains(userId)) {
-            group.getJoinRequests().remove(userId); // Remove the user from join requests
-            group.getParticipants().add(userId); // Add the user to participants
-            groupRepository.save(group); // Save the group with updated participants
-
-            // Optionally, log a transaction here
-            Transaction transaction = new Transaction();
-            transaction.setUserId(userId);
-            transaction.setGroupId(groupId);
-            transaction.setTransactionType("GROUP_JOIN");
-
-            // Log the transaction to transaction service
-            webClientBuilder.baseUrl("http://localhost:8082")
-                .build()
-                .post()
-                .uri("/api/users")
-                .bodyValue(transaction)
-                .retrieve()
-                .onStatus(status -> status.is5xxServerError(), response -> Mono.error(new RuntimeException("Transaction creation failed")))
-                .bodyToMono(Void.class)
-                .block();
-
-            return true; // Successfully added user to group
-        }
-
-        return false; // User is not in the join requests list
-    }
-
-    private String generateGroupId() {
-        return "G" + String.format("%04d", (int) (Math.random() * 1000));
-    }
-
-    // public boolean addParticipant(String groupId, String userId, String organizerId) {
-    //     Group group = groupRepository.findByGroupId(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
-
-    //     // Ensure that the organizer is the one adding the participant
-    //     if (!group.getOrganizerId().equals(organizerId)) {
-    //         throw new RuntimeException("Only the organizer can add participants");
-    //     }
-
-    //     // Ensure the user has a pending join request
-    //     if (!group.getJoinRequests().contains(userId)) {
-    //         throw new RuntimeException("User has not requested to join this group");
-    //     }
-
-    //     // Add the user to the group participants
-    //     group.getParticipants().add(userId);
-    //     group.getJoinRequests().remove(userId); // Remove the user from the pending join requests
-
-    //     groupRepository.save(group);
-
-    //     // Optionally, log a transaction for adding the user (already handled in addParticipant logic)
-    //     Transaction transaction = new Transaction();
-    //     transaction.setUserId(userId);
-    //     transaction.setGroupId(groupId);
-    //     transaction.setTransactionType("GROUP_JOIN");
-
-    //     webClientBuilder.build()
-    //             .post()
-    //             .uri(TRANSACTION_SERVICE_BASE_URL)
-    //             .bodyValue(transaction)
-    //             .retrieve()
-    //             .onStatus(
-    //                 status -> status.is5xxServerError(),
-    //                 response -> Mono.error(new RuntimeException("Transaction creation failed"))
-    //             )
-    //             .bodyToMono(Void.class)
-    //             .block();
-
-    //     return true;
-    // }
 
 
     // Create a new group
     public Group createGroup(Group group) {
         group.setGroupId(generateGroupId());
         return groupRepository.save(group);
+    }
+
+    private String generateGroupId() {
+        return "G" + String.format("%04d", (int) (Math.random() * 1000));
     }
 
     // Get all groups
@@ -203,19 +88,38 @@ public class GroupService {
         return false;
     }
 
-    //Handle adding participant
-    // public boolean addParticipant(String groupId, String userId, String organizerId) {
-    //     Group group = groupRepository.findByGroupId(groupId).get();
-    //     if (group != null && group.getOrganizerId().equals(organizerId)) {
-    //         if (group.getJoinRequests().contains(userId)) {
-    //             group.getParticipants().add(userId);
-    //             group.getJoinRequests().remove(userId);
-    //             groupRepository.save(group);
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    public boolean acceptJoinRequest(String groupId, String userId) {
+        Group group = groupRepository.findByGroupId(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
+
+        // Check if the user is in the join requests list
+        if (group.getJoinRequests().contains(userId)) {
+            group.getJoinRequests().remove(userId); // Remove the user from join requests
+            group.getParticipants().add(userId); // Add the user to participants
+            groupRepository.save(group); // Save the group with updated participants
+
+            // Optionally, log a transaction here
+            Transaction transaction = new Transaction();
+            transaction.setUserId(userId);
+            transaction.setGroupId(groupId);
+            transaction.setTransactionType("GROUP_JOIN");
+
+            // Log the transaction to transaction service
+            webClientBuilder.baseUrl("http://localhost:8082")
+                .build()
+                .post()
+                .uri("/api/users")
+                .bodyValue(transaction)
+                .retrieve()
+                .onStatus(status -> status.is5xxServerError(), response -> Mono.error(new RuntimeException("Transaction creation failed")))
+                .bodyToMono(Void.class)
+                .block();
+
+            return true; // Successfully added user to group
+        }
+
+        return false; // User is not in the join requests list
+    }
+
 
     public boolean addParticipant(String groupId, String userId, String organizerId) {
         // Fetch the group from the repository
