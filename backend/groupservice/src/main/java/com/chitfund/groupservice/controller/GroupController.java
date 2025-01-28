@@ -2,6 +2,7 @@ package com.chitfund.groupservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.chitfund.groupservice.dto.AddParticipantDTO;
@@ -12,6 +13,7 @@ import com.chitfund.groupservice.model.Group;
 import com.chitfund.groupservice.service.GroupService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -61,16 +63,53 @@ public class GroupController {
         return "Join request failed";
     }
 
+    
+
     // Add participant to the group (only the organizer can do this)
+    // @PostMapping("/{groupId}/add-participant")
+    // public String addParticipant(@PathVariable String groupId, @RequestBody AddParticipantDTO addParticipantDTO,
+    //                              @RequestHeader("X-User-Id") String organizerId) {
+    //     boolean success = groupService.addParticipant(groupId, addParticipantDTO.getUserId(), organizerId);
+    //     if (success) {
+    //         return "Participant added successfully";
+    //     }
+    //     return "Failed to add participant";
+    // }
+
     @PostMapping("/{groupId}/add-participant")
-    public String addParticipant(@PathVariable String groupId, @RequestBody AddParticipantDTO addParticipantDTO,
-                                 @RequestHeader("X-User-Id") String organizerId) {
-        boolean success = groupService.addParticipant(groupId, addParticipantDTO.getUserId(), organizerId);
-        if (success) {
-            return "Participant added successfully";
+    public ResponseEntity<?> addParticipant(
+        @PathVariable String groupId, 
+        @RequestBody AddParticipantDTO addParticipantDTO, 
+        @RequestHeader("X-User-Id") String organizerId) {
+        try {
+            boolean success = groupService.addParticipant(groupId, addParticipantDTO.getUserId(), organizerId);
+            if (success) {
+                return ResponseEntity.ok("Participant added successfully");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add participant");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return "Failed to add participant";
     }
+
+    // Add the endpoint to accept a join request
+    @PostMapping("/{groupId}/accept-join/{userId}")
+    public ResponseEntity<?> acceptJoinRequest(
+        @PathVariable String groupId,
+        @PathVariable String userId) {
+        
+        try {
+            boolean success = groupService.acceptJoinRequest(groupId, userId);
+            if (success) {
+                return ResponseEntity.ok(Map.of("message", "User added to the group successfully"));
+            } else {
+                return ResponseEntity.status(400).body(Map.of("message", "User not in join request list"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", e.getMessage()));
+        }
+    }
+
 
     // Get participants of a group
     @GetMapping("/{groupId}/participants")
@@ -85,4 +124,3 @@ public class GroupController {
                 chitCalculationDTO.getMembers(), chitCalculationDTO.getCommission());
     }
 }
-
