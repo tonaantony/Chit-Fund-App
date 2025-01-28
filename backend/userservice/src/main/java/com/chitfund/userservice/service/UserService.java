@@ -90,6 +90,7 @@ public List<String> getAllGroupsForUser(String userId) {
     }
 
     public User registerUser(User userData) {
+        userData.setUserId(generateUserId());
         return userRepository.save(userData);
     }
 
@@ -117,57 +118,9 @@ public List<String> getAllGroupsForUser(String userId) {
         return user.getUserName();
     }
 
-    // public List<String> getListOfGroups(String userEmail) {
-    //     User user = userRepository.findByUserEmail(userEmail).get();
-    //     if (user == null || user.getGroupIds() == null) {
-    //         return null;
-    //     }
-
-    //     List<String> result = new ArrayList<>();
-    //     for (String groupId : user.getGroupIds()) {
-    //         try {
-    //             String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8083/api/groups/" + groupId)
-    //                     .toUriString();
-    //             Group group = restTemplate.getForObject(url, Group.class);
-    //             if (group != null) {
-    //                 result.add(group.toString()); // Adjust based on response structure
-    //             }
-    //         } catch (Exception e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-    //     return result;
-    // }
-
-    // public List<String> getListOfGroups(String userEmail) {
-    //     User user = userRepository.findByUserEmail(userEmail).orElse(null);
-    //     if (user == null || user.getGroupIds() == null) {
-    //         return null;
-    //     }
-
-    //     List<String> result = new ArrayList<>();
-    //     for (String groupId : user.getGroupIds()) {
-    //         try {
-    //             String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8083/api/groups/" + groupId)
-    //                     .toUriString();
-
-    //             Group group = webClientBuilder.build()
-    //                     .get()
-    //                     .uri(url)
-    //                     .retrieve()
-    //                     .bodyToMono(Group.class)
-    //                     .block(); // Replace with `.subscribe()` if you want non-blocking.
-
-    //             if (group != null) {
-    //                 result.add(group.toString());
-    //             }
-    //         } catch (Exception e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-    //     return result;
-    // }
-
+    private String generateUserId() {
+        return "U" + String.format("%04d", (int) (Math.random() * 1000));
+    }
 
     public User updateUserProfile(String userEmail, User updatedData) {
         User existingUser = userRepository.findByUserEmail(userEmail).get();
@@ -182,26 +135,6 @@ public List<String> getAllGroupsForUser(String userId) {
         return userRepository.save(existingUser);
     }
 
-    // public User respondToJoinRequest(String groupId, String userId, String action) {
-    //     // Accept the request
-    //     if (action.equals("accept")) {
-    //         String groupUrl = "http://localhost:8083/api/groups/" + groupId + "/participants/" + userId;
-    //         Group group = restTemplate.getForObject(groupUrl, Group.class);
-    //         User user = userRepository.findByUserId(userId).get();
-    //         if (group != null && user != null) {
-    //             user.getGroupIds().add(groupId);
-    //             return userRepository.save(user);
-    //         }
-    //     } else {
-    //         String groupUrl = "http://localhost:8083/api/groups/" + groupId;
-    //         Group group = restTemplate.getForObject(groupUrl, Group.class);
-    //         if (group != null) {
-    //             group.getJoinRequests().remove(userId);
-    //             restTemplate.put("http://localhost:8083/api/groups/" + groupId, group);
-    //         }
-    //     }
-    //     return null;
-    // }
 
     public User respondToJoinRequest(String groupId, String userId, String action) {
         if ("accept".equals(action)) {

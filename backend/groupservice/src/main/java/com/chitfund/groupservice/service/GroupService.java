@@ -104,6 +104,10 @@ public class GroupService {
         return false; // User is not in the join requests list
     }
 
+    private String generateGroupId() {
+        return "G" + String.format("%04d", (int) (Math.random() * 1000));
+    }
+
     // public boolean addParticipant(String groupId, String userId, String organizerId) {
     //     Group group = groupRepository.findByGroupId(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
 
@@ -147,6 +151,7 @@ public class GroupService {
 
     // Create a new group
     public Group createGroup(Group group) {
+        group.setGroupId(generateGroupId());
         return groupRepository.save(group);
     }
 
