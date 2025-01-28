@@ -17,6 +17,11 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { appRoutes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { CommonModule } from '@angular/common';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [

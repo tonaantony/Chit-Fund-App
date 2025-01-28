@@ -1,13 +1,39 @@
-
-
 .chat-container {
   height: 500px;
   max-width: 800px;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Add a wrapper div for the background */
+.chat-wrapper {
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  background-image: url('/assets/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+/* Add overlay for transparency */
+.chat-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(245, 245, 245, 0.8);
+  z-index: 1;
 }
 
 .chat-messages {
@@ -25,17 +51,17 @@
   border-radius: 15px;
   
   .message-content {
-    p {
-      margin: 0;
-      word-wrap: break-word;
-    }
-    
-    .message-time {
-      font-size: 0.8em;
-      color: rgba(0, 0, 0, 0.6);
-      display: block;
-      margin-top: 4px;
-    }
+      p {
+          margin: 0;
+          word-wrap: break-word;
+      }
+      
+      .message-time {
+          font-size: 0.8em;
+          color: rgba(0, 0, 0, 0.6);
+          display: block;
+          margin-top: 4px;
+      }
   }
 }
 
@@ -45,7 +71,7 @@
   color: white;
   
   .message-time {
-    color: rgba(255, 255, 255, 0.8) !important;
+      color: rgba(255, 255, 255, 0.8) !important;
   }
 }
 
@@ -63,17 +89,16 @@
   border-top: 1px solid #eee;
   
   .input-field {
-    flex: 1;
-    margin-bottom: -1.25em;
+      flex: 1;
+      margin-bottom: -1.25em;
   }
 } 
 
 mat-icon {
-  font-size: 10px; /* Default size for Material icons */
+  font-size: 10px;
   line-height: 2;
   font-weight: bolder;
 }
-
 
 mat-spinner {
   margin: 9px;
