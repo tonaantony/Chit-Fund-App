@@ -1,18 +1,18 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { GroupDetailComponent } from './group-detail.component';
+// import { ProfileComponent } from './profile.component';
 
-// describe('GroupDetailComponent', () => {
-//   let component: GroupDetailComponent;
-//   let fixture: ComponentFixture<GroupDetailComponent>;
+// describe('ProfileComponent', () => {
+//   let component: ProfileComponent;
+//   let fixture: ComponentFixture<ProfileComponent>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       imports: [GroupDetailComponent]
+//       imports: [ProfileComponent]
 //     })
 //     .compileComponents();
     
-//     fixture = TestBed.createComponent(GroupDetailComponent);
+//     fixture = TestBed.createComponent(ProfileComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });
