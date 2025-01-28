@@ -19,8 +19,14 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   register(user: any): Observable<any> {
+    console.log('Sending registration request to:', `${this.baseUrl}/register`);
+    console.log('With user data:', user);
+    
     return this.http.post(`${this.baseUrl}/register`, user)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        tap(response => console.log('Registration response:', response)),
+        catchError(this.handleError)
+      );
   }
 
   login(userEmail: string, password: string): Observable<LoginResponse> {
@@ -48,7 +54,9 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
+    console.error('API Error:', error);
     let errorMessage = 'An error occurred';
+    
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = error.error.message;
@@ -56,6 +64,8 @@ export class AuthService {
       // Server-side error
       errorMessage = error.error?.message || `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    
+    console.error('Processed error message:', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

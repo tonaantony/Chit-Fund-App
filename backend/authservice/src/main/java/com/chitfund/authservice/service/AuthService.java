@@ -65,7 +65,12 @@ public class AuthService {
 
     // Register Method
     public void register(User user) {
+        user.setUserId(generateUserId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    private String generateUserId() {
+        return "U" + String.format("%04d", (int) (Math.random() * 1000));
     }
 }
