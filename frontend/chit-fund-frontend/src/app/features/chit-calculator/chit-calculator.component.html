@@ -1,0 +1,75 @@
+
+
+  <div class="calculator-container">
+    <h2>Chit Fund Calculator</h2>
+    
+    <div class="calculator-form">
+      <div class="form-group">
+        <label>Total Amount:</label>
+        <input type="number" [(ngModel)]="totalAmount" class="form-control" 
+               placeholder="Enter total amount" [disabled]="isCalculating">
+      </div>
+      
+      <div class="form-group">
+        <label>Number of Months:</label>
+        <input type="number" [(ngModel)]="months" class="form-control" 
+               placeholder="Enter number of months" [disabled]="isCalculating">
+      </div>
+      
+      <div class="form-group">
+        <label>Number of Members:</label>
+        <input type="number" [(ngModel)]="members" class="form-control" 
+               placeholder="Enter number of members" [disabled]="isCalculating">
+      </div>
+      
+      <div class="form-group">
+        <label>Commission (%):</label>
+        <input type="number" [(ngModel)]="commission" class="form-control" 
+               placeholder="Enter commission percentage" [disabled]="isCalculating">
+      </div>
+      
+      <button (click)="calculateChit()" class="btn btn-primary" [disabled]="isCalculating">
+        {{ isCalculating ? 'Calculating...' : 'Calculate' }}
+      </button>
+  
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+    </div>
+  
+    <div *ngIf="chitPlans.length > 0" class="results-table">
+      <h3>Payment Schedule</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Pool Amount</th>
+              <th>Commission</th>
+              <th>Winning Bid</th>
+              <th>Discount</th>
+              <th>Discount/Member</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let plan of chitPlans">
+              <td>{{ plan.month }}</td>
+              <td>{{ formatCurrency(plan.poolAmount) }}</td>
+              <td>{{ formatCurrency(plan.commission) }}</td>
+              <td>{{ formatCurrency(plan.winningBid) }}</td>
+              <td>{{ formatCurrency(plan.discount) }}</td>
+              <td>{{ formatCurrency(plan.discountPerMember) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="summary">
+        <p><strong>Total Pool Amount: </strong>{{ formatCurrency(getTotalPoolAmount()) }}</p>
+        <p><strong>Total Commission: </strong>{{ formatCurrency(getTotalCommission()) }}</p>
+        <p><strong>Total Winning Bids: </strong>{{ formatCurrency(getTotalWinningBids()) }}</p>
+        <p><strong>Total Discount: </strong>{{ formatCurrency(getTotalDiscount()) }}</p>
+      </div>
+    </div>
+  </div>
+  

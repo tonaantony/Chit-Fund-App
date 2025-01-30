@@ -28,7 +28,7 @@ export class GroupsListComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    public router: Router
   ) {}
 
   ngOnInit(): void {
