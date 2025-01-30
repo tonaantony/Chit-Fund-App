@@ -1,42 +1,78 @@
-<!-- <div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-green-100">
-    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-      <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Edit Your Profile</h2>
-      <div *ngIf="error" class="text-red-500 mb-4 text-center">{{ error }}</div>
-  
-      <form [formGroup]="formData" (ngSubmit)="handleSubmit()">
-        <div class="mb-4">
-          <label class="block text-sm font-semibold mb-2" for="userMobileNum">Mobile Number</label>
-          <input
-            id="userMobileNum"
-            type="text"
-            formControlName="userMobileNum"
-            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <div *ngIf="formData.get('userMobileNum')?.invalid && formData.get('userMobileNum')?.touched" class="text-red-500">
-            Mobile number is required.
+<div class="edit-profile-container">
+  <div class="edit-profile-card">
+    <h2>Edit Profile</h2>
+    
+    <!-- Alert Messages -->
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (successMessage) {
+      <div class="alert alert-success">
+        {{ successMessage }}
+      </div>
+    }
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <!-- Full Name -->
+      <div class="form-group">
+        <label for="userName">Full Name</label>
+        <input 
+          type="text" 
+          id="userName" 
+          formControlName="userName"
+          class="form-control"
+          placeholder="Enter your full name">
+        @if (profileForm.get('userName')?.invalid && profileForm.get('userName')?.touched) {
+          <div class="error-message">
+            Please enter your name
           </div>
-        </div>
-  
-        <div class="mb-4">
-          <label class="block text-sm font-semibold mb-2" for="userAddress">Address</label>
-          <input
-            id="userAddress"
-            type="text"
-            formControlName="userAddress"
-            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <div *ngIf="formData.get('userAddress')?.invalid && formData.get('userAddress')?.touched" class="text-red-500">
-            Address is required.
+        }
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="form-group">
+        <label for="userMobileNum">Mobile Number</label>
+        <input 
+          type="tel" 
+          id="userMobileNum" 
+          formControlName="userMobileNum"
+          class="form-control"
+          placeholder="Enter your mobile number">
+        @if (profileForm.get('userMobileNum')?.invalid && profileForm.get('userMobileNum')?.touched) {
+          <div class="error-message">
+            Please enter a valid mobile number
           </div>
-        </div>
-  
-        <button
-          type="submit"
-          class="flex items-center justify-center mt-4 w-full bg-indigo-800 text-white p-3 rounded-lg shadow-md hover:bg-indigo-400 transition-colors duration-200"
-        >
-          <span class="mr-2">💾</span> Save Changes
-        </button>
-      </form>
-    </div>
+        }
+      </div>
+
+      <!-- Address -->
+      <div class="form-group">
+        <label for="userAddress">Address</label>
+        <textarea 
+          id="userAddress" 
+          formControlName="userAddress"
+          class="form-control"
+          placeholder="Enter your address"
+          rows="3"></textarea>
+        @if (profileForm.get('userAddress')?.invalid && profileForm.get('userAddress')?.touched) {
+          <div class="error-message">
+            Please enter your address
+          </div>
+        }
+      </div>
+
+      <button type="submit" [disabled]="!profileForm.valid || isLoading">
+        @if (isLoading) {
+          <span class="spinner"></span>
+        } @else {
+          Update Profile
+        }
+      </button>
+      
+      
+    </form>
   </div>
-   -->
+</div>

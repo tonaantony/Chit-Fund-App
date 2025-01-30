@@ -1,48 +1,88 @@
-<!-- <div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-green-100">
-    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-      <!-- Uncomment if you want to use a profile image -->
-      <!-- 
-      <div class="flex items-center justify-center mb-6">
-        <img
-          src="/path/to/profile-picture.png" 
-          alt="Profile"
-          class="w-24 h-24 rounded-full shadow-md"
-        />
-      </div>
-      -->
-      <!-- <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Your Profile</h2>
-      <div *ngIf="error" class="text-red-500 mb-4 text-center">
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>Your Profile</h2>
+
+    <!-- Alert for errors -->
+    @if (error) {
+      <div class="alert alert-danger">
         {{ error }}
       </div>
-  
-      <div class="space-y-4 text-gray-700">
-        <div class="flex items-center justify-between">
-            <span class="font-semibold">Name:</span>
-            <span>{{ user?.userName }}</span>
-          </div>
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Email:</span>
-          <span>{{ user?.userEmail }}</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Role:</span>
-          <span class="capitalize">{{ user?.userRole }}</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Mobile Number:</span>
-          <span>{{ user?.userMobileNum }}</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Address:</span>
-          <span>{{ user?.userAddress }}</span>
+    }
+
+    <!-- Profile Image Section -->
+    <!-- <div class="profile-image-section">
+      <div class="profile-image">
+        <img
+          [src]="user?.profileImage || '/assets/default-avatar.png'"
+          alt="Profile"
+          class="avatar-image"
+        />
+      </div>
+    </div> -->
+
+    <!-- Profile Details Section -->
+    <div class="profile-details">
+      <!-- Name -->
+      <div class="detail-group">
+        <label>Full Name</label>
+        <div class="detail-value">
+          <i class="fas fa-user"></i>
+          <span>{{ user?.userName || 'Not specified' }}</span>
         </div>
       </div>
-  
-      <button
+
+      <!-- Email -->
+      <div class="detail-group">
+        <label>Email Address</label>
+        <div class="detail-value">
+          <i class="fas fa-envelope"></i>
+          <span>{{ user?.userEmail || 'Not specified' }}</span>
+        </div>
+      </div>
+
+      <!-- Role -->
+      <div class="detail-group">
+        <label>Role</label>
+        <div class="detail-value">
+          <i class="fas fa-user-tag"></i>
+          <span class="role-badge">{{ user?.userRole || 'Not specified' }}</span>
+        </div>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="detail-group">
+        <label>Mobile Number</label>
+        <div class="detail-value">
+          <i class="fas fa-phone"></i>
+          <span>{{ user?.userMobileNum || 'Not specified' }}</span>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="detail-group">
+        <label>Address</label>
+        <div class="detail-value">
+          <i class="fas fa-home"></i>
+          <span>{{ user?.userAddress || 'Not specified' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button 
         (click)="handleEditProfile()"
-        class="flex items-center justify-center mt-8 w-full bg-indigo-800 text-white p-3 rounded-lg shadow-md hover:bg-indigo-400 transition-colors duration-200"
-      >
+        class="edit-button">
+        <i class="fas fa-edit"></i>
         Edit Profile
       </button>
+      
+      <!-- <button 
+        routerLink="/dashboard"
+        class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Back to Dashboard
+      </button> -->
     </div>
-  </div> -->
+  </div>
+</div>

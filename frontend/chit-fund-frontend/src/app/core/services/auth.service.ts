@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { User } from '@app/shared/models/user.model';
 
 // Define interface for login response
 interface LoginResponse {
@@ -15,8 +16,16 @@ interface LoginResponse {
 export class AuthService {
   private baseUrl = 'http://localhost:8081/auth';
   private tokenKey = 'token';
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      this.currentUserSubject.next(JSON.parse(userData));
+    }
+   }
 
   register(user: any): Observable<any> {
     console.log('Sending registration request to:', `${this.baseUrl}/register`);
@@ -68,4 +77,12 @@ export class AuthService {
     console.error('Processed error message:', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+  get currentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+  updateUser(user: User): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
+  
 }

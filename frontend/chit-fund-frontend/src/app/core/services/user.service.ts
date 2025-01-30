@@ -24,5 +24,7 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiUrl}`);
   }
 
-  // ... other methods
+  updateUserProfile(email: string, userData: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/edit/${email}`, userData);
+  }
 }

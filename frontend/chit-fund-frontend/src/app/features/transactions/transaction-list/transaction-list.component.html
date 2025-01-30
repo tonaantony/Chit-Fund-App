@@ -1,62 +1,90 @@
 <div class="container">
-    <h2>Transactions Management</h2>
-  
-    <!-- Create Transaction Form -->
-    <div class="create-transaction-form">
-      <h3>Create New Transaction</h3>
-      <form (ngSubmit)="createTransaction()">
-        <!-- <div class="form-group">
-          <input type="text" [(ngModel)]="newTransaction.transactionId" name="transactionId" placeholder="Transaction ID">
-        </div> -->
-        <div class="form-group">
-          <input type="text" [(ngModel)]="newTransaction.userId" name="userId" placeholder="User ID">
-        </div>
-        <div class="form-group">
-          <input type="text" [(ngModel)]="newTransaction.groupId" name="groupId" placeholder="Group ID">
-        </div>
-        <div class="form-group">
-          <input type="text" [(ngModel)]="newTransaction.transactionType" name="transactionType" placeholder="Transaction Type">
-        </div>
-        <button type="submit" class="btn-submit">Create Transaction</button>
-      </form>
+  <h2>Transactions Management</h2>
+
+  <!-- Create Transaction Form -->
+  <div class="create-transaction-form">
+    <h3>Create New Transaction</h3>
+    <form (ngSubmit)="createTransaction()">
+      <div class="form-group">
+        <label for="amount">Amount:</label>
+        <input type="number" [(ngModel)]="newTransaction.transactionAmount" name="transactionAmount" placeholder="Amount" required>
+      </div>
+      <label for="date">Date:</label>
+      <div class="form-group">
+        <input type="date" [(ngModel)]="newTransaction.transactionDate" name="transactionDate" placeholder="Date" required>
+      </div>
+      <label for="from">From:</label>
+      <div class="form-group">
+        <input type="text" [(ngModel)]="newTransaction.transactionFrom" name="transactionFrom" placeholder="From" required>
+      </div>
+      <label for="to">To:</label>
+      <div class="form-group">
+        <input type="text" [(ngModel)]="newTransaction.transactionTo" name="transactionTo" placeholder="To" required>
+      </div>
+      <label for="userId">User ID:</label>
+      <div class="form-group">
+        <input type="text" [(ngModel)]="newTransaction.userId" name="userId" placeholder="User ID" required>
+      </div>
+      <label for="groupId">Group ID:</label>
+      <div class="form-group">
+        <input type="text" [(ngModel)]="newTransaction.groupId" name="groupId" placeholder="Group ID" required>
+      </div>
+      <div class="form-group">
+        <select [(ngModel)]="newTransaction.transactionType" name="transactionType" required>
+          <option value="">Select Transaction Type</option>
+          <option value="PAYMENT">Payment</option>
+          <option value="TRANSFER">Transfer</option>
+          <option value="DEPOSIT">Deposit</option>
+          <option value="WITHDRAWAL">Withdrawal</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-submit">Create Transaction</button>
+    </form>
+  </div>
+
+  <div class="search-section">
+    <div class="search-group">
+      <input type="text" [(ngModel)]="searchUserId" placeholder="Search by User ID">
+      <button (click)="searchByUserId()">Search</button>
     </div>
-  
-    <!-- Search Section -->
-    <div class="search-section">
-      <div class="search-group">
-        <input type="text" [(ngModel)]="searchUserId" placeholder="Search by User ID">
-        <button (click)="searchByUserId()">Search</button>
-      </div>
-      <div class="search-group">
-        <input type="text" [(ngModel)]="searchGroupId" placeholder="Search by Group ID">
-        <button (click)="searchByGroupId()">Search</button>
-      </div>
-      <div class="search-group">
-        <input type="text" [(ngModel)]="searchType" placeholder="Search by Transaction Type">
-        <button (click)="searchByType()">Search</button>
-      </div>
+    <div class="search-group">
+      <input type="text" [(ngModel)]="searchGroupId" placeholder="Search by Group ID">
+      <button (click)="searchByGroupId()">Search</button>
     </div>
-  
-    <!-- Transactions List -->
-    <div class="transactions-list">
-      <h3>Transactions</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Transaction ID</th>
-            <th>User ID</th>
-            <th>Group ID</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let transaction of transactions">
-            <td>{{transaction.transactionId}}</td>
-            <td>{{transaction.userId}}</td>
-            <td>{{transaction.groupId}}</td>
-            <td>{{transaction.transactionType}}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="search-group">
+      <input type="text" [(ngModel)]="searchType" placeholder="Search by Transaction Type">
+      <button (click)="searchByType()">Search</button>
     </div>
   </div>
+
+  <!-- Updated Transactions List -->
+  <div class="transactions-list">
+    <h3>Transactions</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>From</th>
+          <th>To</th>
+          <th>User ID</th>
+          <th>Group ID</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>{{transaction.transactionId}}</td>
+          <td>{{transaction.transactionAmount | currency:'INR'}}</td>
+          <td>{{transaction.transactionDate | date:'short'}}</td>
+          <td>{{transaction.transactionFrom}}</td>
+          <td>{{transaction.transactionTo}}</td>
+          <td>{{transaction.userId}}</td>
+          <td>{{transaction.groupId}}</td>
+          <td>{{transaction.transactionType}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
