@@ -1,5 +1,6 @@
 package com.chitfund.groupservice.model;
 
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -38,6 +39,14 @@ public class Group {
 
     @Column(name = "duration", nullable = false)
     private Integer duration;
+
+    
+    @Column(name = "start_date", nullable = false)
+    private Date startDate;
+
+    
+    @Column(name = "end_date", nullable = false)
+    private Date endDate;
 
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
@@ -119,6 +128,22 @@ public class Group {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Double getTotalAmount() {

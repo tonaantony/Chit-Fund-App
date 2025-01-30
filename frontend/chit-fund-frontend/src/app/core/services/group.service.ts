@@ -7,7 +7,7 @@ import { Group, ChitCalculationDTO, ChitPlanDTO } from '@app/shared/models/group
   providedIn: 'root'
 })
 export class GroupService {
-  private apiUrl = 'http://localhost:8080/api/groups';  // Direct URL instead of environment
+  private apiUrl = 'http://localhost:8083/api/groups';  // Direct URL instead of environment
 
   constructor(private http: HttpClient) { }
 
@@ -53,3 +53,29 @@ export class GroupService {
     return this.http.post<ChitPlanDTO[]>(`${this.apiUrl}/calculate-chit`, calculation);
   }
 }
+
+
+// import { Injectable } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+// import { Observable } from 'rxjs';
+
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class GroupService {
+//   private apiUrl = 'http://localhost:8083/api/groups';
+
+//   constructor(private http: HttpClient) {}
+
+//   getAllGroups(): Observable<any[]> {
+//     return this.http.get<any[]>(this.apiUrl);
+//   }
+
+//   getGroupById(id: string): Observable<any> {
+//     return this.http.get<any>(`${this.apiUrl}/${id}`);
+//   }
+
+//   requestToJoin(groupId: string, userId: string): Observable<any> {
+//     return this.http.post(`${this.apiUrl}/join`, { groupId, userId });
+//   }
+// }
