@@ -1,5 +1,6 @@
 package com.chitfund.groupservice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,6 @@ import com.chitfund.groupservice.model.Group;
 public interface GroupRepository extends JpaRepository<Group, Long> {
     Optional<Group> findByGroupId(String groupId);
     Optional<Group> findByGroupName(String groupName);
+    List<Group> findByOrganizerId(String organizerId);
 }
 

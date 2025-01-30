@@ -41,6 +41,12 @@ public class GroupController {
         return groupService.getGroupById(groupId);
     }
 
+    @GetMapping("/organizer/{organizerId}")
+    public List<Group> getGroupsByOrganizer(@PathVariable String organizerId) {
+        List<Group> groups = groupService.getGroupsByOrganizerId(organizerId);
+        return groups;
+    }
+
     // Update group details
     @PutMapping("/{groupId}")
     public Group updateGroup(@PathVariable String groupId, @RequestBody Group groupDetails) {

@@ -50,6 +50,10 @@ public class GroupService {
         return groupRepository.findByGroupId(groupId).get();
     }
 
+    public List<Group> getGroupsByOrganizerId(String organizerId){
+        return groupRepository.findByOrganizerId(organizerId);
+    }
+
     // Update group details
     public Group updateGroup(String groupId, Group groupDetails) {
         Group group = groupRepository.findByGroupId(groupId).get();
