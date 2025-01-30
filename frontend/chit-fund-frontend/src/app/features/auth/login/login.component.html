@@ -1,8 +1,8 @@
-<div class="login-container">
+<!-- <div class="login-container">
   <div class="login-card">
     <h2>Login</h2>
     
-    <!-- Error Message -->
+    Error Message
     @if (errorMessage) {
       <div class="alert alert-danger">
         {{ errorMessage }}
@@ -10,7 +10,7 @@
     }
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <!-- Email Field -->
+      Email Field
       <div class="form-group">
         <label for="email">Email</label>
         <input 
@@ -32,7 +32,7 @@
         }
       </div>
 
-      <!-- Password Field -->
+      Password Field
       <div class="form-group">
         <label for="password">Password</label>
         <input 
@@ -50,7 +50,7 @@
         }
       </div>
 
-      <!-- Role Selection -->
+      Role Selection
       <div class="form-group">
         <label>Select Role</label>
         <div class="role-buttons">
@@ -81,14 +81,121 @@
         }
       </div>
 
-      <!-- Submit Button -->
+      Submit Button
       <button 
+        type="submit" 
+        class="submit-btn" 
+        [disabled]="loginForm.invalid || isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button> 
+
+      Submit Button
+       <button 
         type="submit" 
         class="submit-btn" 
         [disabled]="loginForm.invalid">
         Login
+      </button> -->
+      <!-- <a routerLink="/userdashboard">Login</a> -->
+
+      <!-- <button 
+  type="submit" 
+  class="submit-btn" 
+  [disabled]="loginForm.invalid"
+  (click)="handleLoginClick()">
+  {{ isLoading ? 'Logging in...' : 'Login' }}
+</button> -->
+
+      <!-- Register Link -->
+      <!-- <div class="register-link">
+        Don't have an account? 
+        <a routerLink="/register">Register here</a>
+      </div>
+    </form>
+  </div>
+</div> -->
+
+<div class="login-container">
+  <div class="login-card">
+    <h2>Welcome Back!</h2>
+    <p class="subtitle">Please login to your account</p>
+
+    <div *ngIf="errorMessage" class="error-alert">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (input)="onInputChange()">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="userEmail">Email Address</label>
+        <div class="input-container">
+          <i class="fas fa-envelope"></i>
+          <input 
+            type="email" 
+            id="userEmail" 
+            formControlName="userEmail"
+            placeholder="Enter your email"
+            [class.is-invalid]="loginForm.get('userEmail')?.invalid && formSubmitted">
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-container">
+          <i class="fas fa-lock"></i>
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            id="password" 
+            formControlName="password"
+            placeholder="Enter your password"
+            [class.is-invalid]="loginForm.get('password')?.invalid && formSubmitted">
+          <button 
+            type="button" 
+            class="toggle-password"
+            (click)="togglePasswordVisibility()">
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label>Select Role</label>
+        <div class="role-buttons">
+          <button 
+            type="button"
+            [class.active]="selectedRole === 'ADMIN'"
+            (click)="setRole('ADMIN')">
+            <i class="fas fa-user-shield"></i>
+            Admin
+          </button>
+          <button 
+            type="button"
+            [class.active]="selectedRole === 'ORGANIZER'"
+            (click)="setRole('ORGANIZER')">
+            <i class="fas fa-user-tie"></i>
+            Organizer
+          </button>
+          <button 
+            type="button"
+            [class.active]="selectedRole === 'PARTICIPANT'"
+            (click)="setRole('PARTICIPANT')">
+            <i class="fas fa-user"></i>
+            Participant
+          </button>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="login-button"
+        [disabled]="isLoading">
+        <span *ngIf="!isLoading">Login</span>
+        <div *ngIf="isLoading" class="spinner"></div>
       </button>
-      <!-- <a routerLink="/ai-chat">Login</a> -->
 
       <!-- Register Link -->
       <div class="register-link">

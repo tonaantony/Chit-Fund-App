@@ -1,6 +1,8 @@
 package com.chitfund.userservice.controller;
 
+import com.chitfund.userservice.dto.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,10 +100,10 @@ public class UserController {
     // Modify the endpoint for responding to the join request
     @PostMapping("/{groupId}/respond/{userId}")
     public ResponseEntity<?> respondToJoinRequest(
-        @PathVariable String groupId,
-        @PathVariable String userId,
-        @RequestBody @Valid RespondToJoinRequestDTO requestDTO) {
-        
+            @PathVariable String groupId,
+            @PathVariable String userId,
+            @RequestBody @Valid RespondToJoinRequestDTO requestDTO) {
+
         String action = requestDTO.getAction();
         try {
             User updatedUser = userService.respondToJoinRequest(groupId, userId, action);
@@ -118,15 +120,15 @@ public class UserController {
 
     @PostMapping("/addGroup/{userEmail}")
     public ResponseEntity<?> addGroup(
-        @PathVariable String userEmail,
-        @RequestBody @Valid AddGroupDTO requestDTO) {
-            String groupId = requestDTO.getGroupId();
-            try {
-                User user = userService.addGroupToUser(groupId, userEmail);
-                return ResponseEntity.ok(user);
-            } catch (Exception e) {
-                return ResponseEntity.status(500).body(Map.of("message", e.getMessage()));
-            }
+            @PathVariable String userEmail,
+            @RequestBody @Valid AddGroupDTO requestDTO) {
+        String groupId = requestDTO.getGroupId();
+        try {
+            User user = userService.addGroupToUser(groupId, userEmail);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", e.getMessage()));
+        }
     }
 
 
@@ -143,16 +145,17 @@ public class UserController {
             return ResponseEntity.status(500).body(Map.of("message", e.getMessage()));
         }
     }
-
-    // @GetMapping("/{userId}/transactions")
-    // public ResponseEntity<?> getUserTransactions(@PathVariable String userId) {
-    //     try {
-    //         List<Transaction> transactions = userService.getUserTransactions(userId);
-    //         return ResponseEntity.ok(transactions);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    //     }
-    // }
-
 }
+
+//     @GetMapping("/{userId}/transactions")
+//     public ResponseEntity<?> getUserTransactions(@PathVariable String userId) {
+//         try {
+//             List<Transaction> transactions = userService.getUserTransactions(userId);
+//             return ResponseEntity.ok(transactions);
+//         } catch (Exception e) {
+//             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+//         }
+//     }
+//
+//}
 

@@ -40,3 +40,82 @@
     </div>
   </div>
    -->
+
+   <!-- <div class="edit-profile-container">
+    <div class="profile-card">
+      <h2>Edit Profile</h2>
+  
+      @if (errorMessage) {
+        <div class="alert alert-error">
+          {{ errorMessage }}
+        </div>
+      }
+  
+      @if (successMessage) {
+        <div class="alert alert-success">
+          {{ successMessage }}
+        </div>
+      }
+  
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="userName">Name</label>
+          <input
+            id="userName"
+            type="text"
+            formControlName="userName"
+            [class.invalid]="profileForm.get('userName')?.invalid && profileForm.get('userName')?.touched"
+          >
+          @if (profileForm.get('userName')?.invalid && profileForm.get('userName')?.touched) {
+            <div class="error-message">{{ getErrorMessage('userName') }}</div>
+          }
+        </div>
+  
+        <div class="form-group">
+          <label for="userMobileNum">Mobile Number</label>
+          <input
+            id="userMobileNum"
+            type="text"
+            formControlName="userMobileNum"
+            [class.invalid]="profileForm.get('userMobileNum')?.invalid && profileForm.get('userMobileNum')?.touched"
+          >
+          @if (profileForm.get('userMobileNum')?.invalid && profileForm.get('userMobileNum')?.touched) {
+            <div class="error-message">{{ getErrorMessage('userMobileNum') }}</div>
+          }
+        </div>
+  
+        <div class="form-group">
+          <label for="userAddress">Address</label>
+          <textarea
+            id="userAddress"
+            formControlName="userAddress"
+            [class.invalid]="profileForm.get('userAddress')?.invalid && profileForm.get('userAddress')?.touched"
+          ></textarea>
+          @if (profileForm.get('userAddress')?.invalid && profileForm.get('userAddress')?.touched) {
+            <div class="error-message">{{ getErrorMessage('userAddress') }}</div>
+          }
+        </div>
+  
+        <div class="button-group">
+          <button 
+            type="submit" 
+            [disabled]="profileForm.invalid || isLoading"
+            class="submit-btn"
+          >
+            @if (isLoading) {
+              <span class="spinner"></span>
+            } @else {
+              Save Changes
+            }
+          </button>
+          <button 
+            type="button" 
+            class="cancel-btn"
+            routerLink="/profile"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div> -->
