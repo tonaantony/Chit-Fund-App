@@ -11,6 +11,7 @@ import { UserDashboardComponent } from './features/userdashboard/userdashboard.c
 import { GroupsListComponent } from './features/groups/group-list/group-list.component';
 import { GroupDetailsComponent } from './features/groups/group-detail/group-detail.component';
 import { ChitCalculatorComponent } from './features/chit-calculator/chit-calculator.component';
+import { OrganizerDashboardComponent } from './features/organizerdashboard/organizerdashboard.component';
 
 export const appRoutes: Routes = [
  // { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,6 +19,7 @@ export const appRoutes: Routes = [
   //{ path: 'login', component: LoginComponent },
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'userdashboard', component: UserDashboardComponent},
+  { path: 'organizerdashboard', component: OrganizerDashboardComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'editprofile', component: EditProfileComponent },

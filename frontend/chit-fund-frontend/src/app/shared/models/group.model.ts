@@ -1,20 +1,24 @@
 export interface Group {
-  id: number;
   groupId: string;
   groupName: string;
-  groupType: string;
-  interest: number;
-  organizerId: string;
-  members: number;
-  duration: number;
-  startDate: Date;
-  endDate: Date;
-  totalAmount: number;
-  ticketValue: number;
-  participants: string[];
-  joinRequests: string[];
-  monthlyDraw: string[];
   description: string;
+  status: string;
+  memberCount: number;
+  createdDate: Date;
+  joinRequests: string[];
+  organizerId: string;
+  participants: string[];
+  groupType?: string;
+  interest?: number;
+  members?: number;
+  duration?: number;
+  totalAmount?: number;
+  ticketValue?: number;
+}
+
+export interface JoinRequestResponse {
+  message: string;
+  success: boolean;
 }
 
 export interface ChitPlanDTO {
@@ -30,3 +34,4 @@ export interface ChitCalculationDTO {
   members: number;
   commission: number;
 }
+
