@@ -65,8 +65,20 @@ export class AuthService {
   }
 
   
-  login(loginRequest: any): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/login`, loginRequest).pipe(
+  // login(loginRequest: any): Observable<string> {
+  //   return this.http.post<string>(`${this.baseUrl}/login`, loginRequest).pipe(
+  //     tap(async (token: string) => {
+  //       await this.storageService.setItem(this.tokenKey, token);
+  //       this.token = token;
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  login(loginRequest: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, loginRequest, {
+      responseType: 'text' // Add this to handle text response
+    }).pipe(
       tap(async (token: string) => {
         await this.storageService.setItem(this.tokenKey, token);
         this.token = token;

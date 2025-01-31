@@ -16,7 +16,7 @@ import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { appRoutes } from './app.routes';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withViewTransitions()),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideAnimations()
   ]
 };
