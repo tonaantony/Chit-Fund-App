@@ -1,0 +1,71 @@
+
+  <div class="groups-container">
+    <div class="groups-header">
+      <div class="header-content">
+        <h2>Available Groups</h2>
+        <button (click)="router.navigate(['/chit-calculator'])" class="calculator-btn">
+          <i class="fas fa-calculator"></i> Chit Fund Calculator
+        </button>
+      </div>
+    </div>
+  
+    <div class="groups-grid">
+      @for (group of groups; track group.groupId) {
+        <div class="group-card">
+          <div class="group-card-header">
+            <div class="group-title">
+              <h3>{{group.groupName}}</h3>
+              <span class="group-id">ID: {{group.groupId}}</span>
+            </div>
+            <div class="group-type-badge">{{group.groupType}}</div>
+          </div>
+  
+          <div class="group-card-content">
+            <div class="group-info-grid">
+              <div class="info-item">
+                <span class="info-label">Amount</span>
+                <span class="info-value">₹{{group.totalAmount}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Members</span>
+                <span class="info-value">{{group.members}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Duration</span>
+                <span class="info-value">{{group.duration}} months</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Start Date</span>
+                <span class="info-value">{{group.startDate | date:'dd-MMM-yyyy'}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">End Date</span>
+                <span class="info-value">{{group.endDate | date:'dd-MMM-yyyy'}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Organizer</span>
+                <span class="info-value organizer-id">{{group.organizerId}}</span>
+              </div>
+            </div>
+  
+            <div class="group-description">
+              <p>{{group.description}}</p>
+            </div>
+          </div>
+  
+          <div class="group-card-footer">
+            <button class="view-details-btn" (click)="navigateToDetails(group.groupId)">
+              View Details
+            </button>
+          </div>
+        </div>
+      }
+      @empty {
+        <div class="no-groups">
+          <div class="alert alert-info">
+            No groups available at the moment.
+          </div>
+        </div>
+      }
+    </div>
+  </div>

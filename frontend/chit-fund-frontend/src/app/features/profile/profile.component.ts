@@ -52,7 +52,6 @@
 //     }
 //   }
 // }
-
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -83,58 +82,58 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadUserProfile();
+    //this.loadUserProfile();
   }
 
-  private loadUserProfile(): void {
-    const currentUser = this.authService.currentUser;
+//   private loadUserProfile(): void {
+//     const currentUser = this.authService.currentUser;
     
-    if (!currentUser?.userEmail) {
-      this.error = 'No user data found. Please login again.';
-      this.router.navigate(['/login']);
-      return;
-    }
+//     if (!currentUser?.userEmail) {
+//       this.error = 'No user data found. Please login again.';
+//       this.router.navigate(['/login']);
+//       return;
+//     }
 
-    this.isLoading = true;
-    const token = this.authService.getToken();
+//     this.isLoading = true;
+//     const token = this.authService.getToken();
 
-    if (!token) {
-      this.error = 'Authentication token not found. Please login again.';
-      this.router.navigate(['/login']);
-      return;
-    }
+//     if (!token) {
+//       this.error = 'Authentication token not found. Please login again.';
+//       this.router.navigate(['/login']);
+//       return;
+//     }
 
-    this.userService.getUserByEmail(currentUser.userEmail)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('Error fetching user profile:', error);
+//     this.userService.getUserByEmail(currentUser.userEmail)
+//       .pipe(
+//         catchError((error: HttpErrorResponse) => {
+//           console.error('Error fetching user profile:', error);
           
-          if (error.status === 401) {
-            this.error = 'Session expired. Please login again.';
-            this.authService.logout();
-            this.router.navigate(['/login']);
-          } else if (error.status === 404) {
-            this.error = 'User profile not found.';
-          } else {
-            this.error = 'Failed to load user profile. Please try again later.';
-          }
+//           if (error.status === 401) {
+//             this.error = 'Session expired. Please login again.';
+//             this.authService.logout();
+//             this.router.navigate(['/login']);
+//           } else if (error.status === 404) {
+//             this.error = 'User profile not found.';
+//           } else {
+//             this.error = 'Failed to load user profile. Please try again later.';
+//           }
           
-          return of(null);
-        }),
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe({
-        next: (user: User | null) => {
-          if (user) {
-            this.user = user;
-            // Update the stored user data in AuthService
-            this.authService.updateUser(user);
-          }
-        }
-      });
-  }
+//           return of(null);
+//         }),
+//         finalize(() => {
+//           this.isLoading = false;
+//         })
+//       )
+//       .subscribe({
+//         next: (user: User | null) => {
+//           if (user) {
+//             this.user = user;
+//             // Update the stored user data in AuthService
+//             this.authService.updateUser(user);
+//           }
+//         }
+//       });
+//   }
 
   handleEditProfile(): void {
     if (!this.user?.userEmail) {
@@ -153,6 +152,6 @@ export class ProfileComponent implements OnInit {
   // Add a refresh method that can be called after profile updates
   refreshProfile(): void {
     this.error = '';
-    this.loadUserProfile();
+    //this.loadUserProfile();
   }
 }

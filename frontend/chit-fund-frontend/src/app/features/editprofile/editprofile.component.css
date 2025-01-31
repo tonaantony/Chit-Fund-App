@@ -1,27 +1,43 @@
-/* .edit-profile-container {
+.edit-profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-color: #f5f5f5;
+    position: relative;
+    background-image: url('/assets/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   
-  .profile-card {
-    background: white;
+  .edit-profile-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(245, 245, 245, 0.8);
+    z-index: 1;
+  }
+  
+  .edit-profile-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
   }
   
   h2 {
     text-align: center;
     color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    font-weight: 600;
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
   }
   
   .form-group {
@@ -33,106 +49,129 @@
     margin-bottom: 0.5rem;
     color: #555;
     font-weight: 500;
+    font-size: 0.95rem;
   }
   
-  input, textarea {
+  .form-control {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 1rem;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+    background-color: #fff;
   }
   
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
-  
-  input:focus, textarea:focus {
+  .form-control:focus {
     outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
   }
   
-  input.invalid, textarea.invalid {
-    border-color: #dc2626;
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
   }
   
-  .error-message {
-    color: #dc2626;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-  
-  .button-group {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  
-  .submit-btn, .cancel-btn {
-    flex: 1;
-    padding: 0.75rem;
+  button[type="submit"] {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
-  .submit-btn {
-    background-color: #4f46e5;
-    color: white;
+  button[type="submit"]:hover {
+    background-color: #0056b3;
   }
   
-  .submit-btn:hover:not(:disabled) {
-    background-color: #4338ca;
-  }
-  
-  .submit-btn:disabled {
-    background-color: #9ca3af;
+  button[type="submit"]:disabled {
+    background-color: #ccc;
     cursor: not-allowed;
   }
   
-  .cancel-btn {
-    background-color: #f3f4f6;
-    color: #4b5563;
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
   }
   
-  .cancel-btn:hover {
-    background-color: #e5e7eb;
+  .error-message::before {
+    content: "⚠";
+    margin-right: 0.25rem;
   }
   
-  .alert {
-    padding: 1rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+  .login-link {
     text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
   }
   
-  .alert-error {
-    background-color: #fee2e2;
-    color: #dc2626;
+  .login-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
   }
   
-  .alert-success {
-    background-color: #dcfce7;
-    color: #16a34a;
+  .login-link a:hover {
+    text-decoration: underline;
   }
   
   .spinner {
-    display: inline-block;
     width: 20px;
     height: 20px;
     border: 2px solid #ffffff;
+    border-top: 2px solid transparent;
     border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
   }
   
   @keyframes spin {
-    to {
-      transform: rotate(360deg);
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .alert {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 576px) {
+    .edit-profile-card {
+      padding: 1.5rem;
     }
-  } */
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    .form-control {
+      padding: 0.625rem 0.875rem;
+    }
+  }

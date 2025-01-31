@@ -44,6 +44,9 @@ export class TransactionComponent implements OnInit {
   }
 
   createTransaction() {
+    if(typeof this.newTransaction.transactionDate === 'string'){
+      this.newTransaction.transactionDate = new Date(this.newTransaction.transactionDate);
+  }
     this.transactionService.createTransaction(this.newTransaction).subscribe({
       next: (response) => {
         console.log('Transaction created:', response);

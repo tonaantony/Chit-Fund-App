@@ -115,7 +115,7 @@
   </div>
 </div> -->
 
-<div class="login-container">
+<!-- <div class="login-container">
   <div class="login-card">
     <h2>Welcome Back!</h2>
     <p class="subtitle">Please login to your account</p>
@@ -125,9 +125,9 @@
       {{ errorMessage }}
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (input)="onInputChange()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (input)="onInputChange()"> -->
       <!-- Email Field -->
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="userEmail">Email Address</label>
         <div class="input-container">
           <i class="fas fa-envelope"></i>
@@ -138,10 +138,10 @@
             placeholder="Enter your email"
             [class.is-invalid]="loginForm.get('userEmail')?.invalid && formSubmitted">
         </div>
-      </div>
+      </div> -->
 
       <!-- Password Field -->
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="password">Password</label>
         <div class="input-container">
           <i class="fas fa-lock"></i>
@@ -158,10 +158,10 @@
             <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
           </button>
         </div>
-      </div>
+      </div> -->
 
       <!-- Role Selection -->
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Select Role</label>
         <div class="role-buttons">
           <button 
@@ -186,22 +186,22 @@
             Participant
           </button>
         </div>
-      </div>
+      </div> -->
 
       <!-- Submit Button -->
-      <button 
+      <!-- <button 
         type="submit" 
         class="login-button"
         [disabled]="isLoading">
         <span *ngIf="!isLoading">Login</span>
         <div *ngIf="isLoading" class="spinner"></div>
-      </button>
+      </button> -->
 
       <!-- Register Link -->
-      <div class="register-link">
+      <!-- <div class="register-link">
         Don't have an account? 
         <a routerLink="/register">Register here</a>
       </div>
     </form>
   </div>
-</div>
+</div> -->

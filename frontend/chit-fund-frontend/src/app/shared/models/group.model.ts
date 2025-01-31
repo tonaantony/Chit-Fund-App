@@ -7,6 +7,8 @@ export interface Group {
   organizerId: string;
   members: number;
   duration: number;
+  startDate: Date;
+  endDate: Date;
   totalAmount: number;
   ticketValue: number;
   participants: string[];

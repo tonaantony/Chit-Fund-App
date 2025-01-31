@@ -55,4 +55,7 @@ leaveGroup(userEmail: string, groupId: string): Observable<any> {
   return this.http.delete(`${this.apiUrl}/groups/${groupId}/leave/${userEmail}`, { headers });
 }
   // ... other methods
+  updateUserProfile(email: string, userData: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/edit/${email}`, userData);
+  }
 }

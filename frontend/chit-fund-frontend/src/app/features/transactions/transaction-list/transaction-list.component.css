@@ -103,3 +103,29 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+  
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 7px;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}

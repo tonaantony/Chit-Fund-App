@@ -159,21 +159,25 @@ public class GroupService {
     // Calculate Chit Plan
     public List<ChitPlanDTO> calculateChit(Double totalAmount, Integer months, Integer members, Double commission) {
         List<ChitPlanDTO> chitPlans = new ArrayList<>();
-        Double minAmount = totalAmount / members;
-        Double interest = (double) months / 200;
-        Double commissionAmount;
-        Double amountGiven;
-
+        Double poolAmount = totalAmount;
+        Double commissionAmount = poolAmount * (commission / 100);
+        Double availableForBidding = poolAmount - commissionAmount;
         for (int month = 1; month <= months; month++) {
-            commissionAmount = minAmount * commission / 100;
-            amountGiven = minAmount - commissionAmount;
-
-            chitPlans.add(new ChitPlanDTO(month, minAmount, commissionAmount, amountGiven));
-
-            minAmount += 0.01 * totalAmount; // Update amount for the next month
+            // Simulate an auction: assume the winning bid is slightly less each month
+            // Double winningBid = poolAmount - (Math.round(Math.random() * (poolAmount * 0.1))); // Randomly deduct 10% max
+            Double winningBid = (double) Math.round(Math.random() * availableForBidding);
+            Double discount = poolAmount - commissionAmount - winningBid;
+    
+            // Split the discount among all members
+            Double discountPerMember = discount / members;
+    
+            chitPlans.add(new ChitPlanDTO(month, poolAmount, commissionAmount, winningBid, discount, discountPerMember));
         }
-
+    
         return chitPlans;
     }
+    
+
+    
 
 }
