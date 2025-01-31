@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Group, ChitCalculationDTO, ChitPlanDTO } from '@app/shared/models/group.model';
+import { Group, ChitCalculationDTO, ChitPlanDTO, JoinRequestResponse } from '@app/shared/models/group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,6 @@ export class GroupService {
 
   constructor(private http: HttpClient) { }
 
-  createGroup(group: Partial<Group>): Observable<Group> {
-    return this.http.post<Group>(this.apiUrl, group);
-  }
 
   getAllGroups(): Observable<Group[]> {
     return this.http.get<Group[]>(this.apiUrl);
@@ -52,7 +49,6 @@ export class GroupService {
   calculateChit(calculation: ChitCalculationDTO): Observable<ChitPlanDTO[]> {
     return this.http.post<ChitPlanDTO[]>(`${this.apiUrl}/calculate-chit`, calculation);
   }
-}
 
 
 // import { Injectable } from '@angular/core';
@@ -79,3 +75,31 @@ export class GroupService {
 //     return this.http.post(`${this.apiUrl}/join`, { groupId, userId });
 //   }
 // }
+
+
+
+
+  getGroupsByOrganizer(organizerId: string): Observable<Group[]> {
+    return this.http.get<Group[]>(`${this.apiUrl}/organizer/${organizerId}`);
+  }
+
+  acceptJoinRequest(groupId: string, userId: string): Observable<JoinRequestResponse> {
+    return this.http.post<JoinRequestResponse>(
+      `${this.apiUrl}/${groupId}/accept-join/${userId}`,
+      {}
+    );
+  }
+
+  createGroup(group: Group): Observable<Group> {
+    return this.http.post<Group>(this.apiUrl, group);
+  }
+
+  // getAllGroups(): Observable<Group[]> {
+  //   return this.http.get<Group[]>(this.apiUrl);
+  // }
+
+  // getGroupById(groupId: string): Observable<Group> {
+  //   return this.http.get<Group>(`${this.apiUrl}/${groupId}`);
+  // }
+
+}
