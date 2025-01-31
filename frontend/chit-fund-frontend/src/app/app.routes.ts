@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-//import { LoginComponent } from './features/auth/login/login.component';
+import { LoginComponent } from './features/auth/login/login.component';
 //import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { EditProfileComponent } from './features/editprofile/editprofile.component';
@@ -15,7 +15,7 @@ import { ChitCalculatorComponent } from './features/chit-calculator/chit-calcula
 export const appRoutes: Routes = [
  // { path: '', redirectTo: 'login', pathMatch: 'full' },
  { path: '', component: HomeComponent },
-  //{ path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'userdashboard', component: UserDashboardComponent},
   { path: 'register', component: RegisterComponent },
