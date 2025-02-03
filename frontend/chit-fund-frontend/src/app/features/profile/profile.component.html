@@ -1,88 +1,47 @@
 <div class="profile-container">
   <div class="profile-card">
-    <h2>Your Profile</h2>
-
-    <!-- Alert for errors -->
-    @if (error) {
-      <div class="alert alert-danger">
-        {{ error }}
-      </div>
-    }
-
-    <!-- Profile Image Section -->
-    <!-- <div class="profile-image-section">
-      <div class="profile-image">
-        <img
-          [src]="user?.profileImage || '/assets/default-avatar.png'"
-          alt="Profile"
-          class="avatar-image"
-        />
-      </div>
-    </div> -->
-
-    <!-- Profile Details Section -->
-    <div class="profile-details">
-      <!-- Name -->
-      <div class="detail-group">
-        <label>Full Name</label>
-        <div class="detail-value">
-          <i class="fas fa-user"></i>
-          <span>{{ user?.userName || 'Not specified' }}</span>
+    <h2>User Profile</h2>
+    @if (user) {
+      <div class="profile-details">
+        <div class="detail-item">
+          <label>User ID:</label>
+          <span>{{ user.userId }}</span>
         </div>
-      </div>
-
-      <!-- Email -->
-      <div class="detail-group">
-        <label>Email Address</label>
-        <div class="detail-value">
-          <i class="fas fa-envelope"></i>
-          <span>{{ user?.userEmail || 'Not specified' }}</span>
+        <div class="detail-item">
+          <label>Name:</label>
+          <span>{{ user.userName }}</span>
         </div>
-      </div>
-
-      <!-- Role -->
-      <div class="detail-group">
-        <label>Role</label>
-        <div class="detail-value">
-          <i class="fas fa-user-tag"></i>
-          <span class="role-badge">{{ user?.userRole || 'Not specified' }}</span>
+        <div class="detail-item">
+          <label>Email:</label>
+          <span>{{ user.userEmail }}</span>
         </div>
-      </div>
-
-      <!-- Mobile Number -->
-      <div class="detail-group">
-        <label>Mobile Number</label>
-        <div class="detail-value">
-          <i class="fas fa-phone"></i>
-          <span>{{ user?.userMobileNum || 'Not specified' }}</span>
+        <div class="detail-item">
+          <label>Mobile Number:</label>
+          <span>{{ user.userMobileNum }}</span>
         </div>
-      </div>
-
-      <!-- Address -->
-      <div class="detail-group">
-        <label>Address</label>
-        <div class="detail-value">
-          <i class="fas fa-home"></i>
-          <span>{{ user?.userAddress || 'Not specified' }}</span>
+        <div class="detail-item">
+          <label>Address:</label>
+          <span>{{ user.userAddress }}</span>
         </div>
+        <div class="detail-item">
+          <label>Role:</label>
+          <span>{{ user.userRole }}</span>
+        </div>
+        @if (user.groupIds && user.groupIds.length > 0) {
+          <div class="detail-item">
+            <label>Groups:</label>
+            <span>{{ user.groupIds.join(', ') }}</span>
+          </div>
+        }
       </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-      <button 
-        (click)="handleEditProfile()"
-        class="edit-button">
-        <i class="fas fa-edit"></i>
-        Edit Profile
-      </button>
       
-      <!-- <button 
-        routerLink="/dashboard"
-        class="back-button">
-        <i class="fas fa-arrow-left"></i>
-        Back to Dashboard
-      </button> -->
-    </div>
+      <div class="action-buttons">
+        <button class="edit-button" routerLink="/editprofile">
+          <i class="fas fa-edit"></i> Edit Profile
+        </button>
+      </div>
+    } @else {
+      <p class="loading">Loading user details...</p>
+    }
   </div>
 </div>

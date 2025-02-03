@@ -36,7 +36,7 @@ export class AuthService {
   //  }
   constructor(
     private http: HttpClient,
-    private storageService: StorageService
+    public storageService: StorageService
   ) {
     this.initializeAuth();
   }
@@ -112,13 +112,14 @@ login(loginRequest: any): Observable<any> {
       await this.storageService.setItem(this.tokenKey, token);
       this.token = token;
 
-      // Fetch user details using email
+      // Fetch and store user details after successful login
       const userDetails = await this.getUserByEmail(loginRequest.userEmail).toPromise();
-      if (userDetails.userRole) {
-        console.log('User role:', userDetails.userRole);
-        await this.storageService.setItem(this.roleKey, userDetails.userRole);
+      if (userDetails) {
+        await this.storageService.setItem('currentUser', JSON.stringify(userDetails));
+        this.currentUserSubject.next(userDetails);
+        await this.storageService.setItem(this.roleKey, loginRequest.role);
       } else {
-        throw new Error('User role not found in response');
+        throw new Error('User details not found');
       }
     }),
     catchError(this.handleError)
@@ -204,6 +205,17 @@ login(loginRequest: any): Observable<any> {
   updateUser(user: User): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
+  }
+
+  // Add method to get current user details
+  async getCurrentUser(): Promise<User | null> {
+    try {
+      const userData = await this.storageService.getItem('currentUser');
+      return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+      console.error('Error getting current user:', error);
+      return null;
+    }
   }
 
 }
