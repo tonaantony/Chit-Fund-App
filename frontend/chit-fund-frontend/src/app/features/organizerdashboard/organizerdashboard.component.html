@@ -8,17 +8,17 @@
         }
       </div>
       <div class="header-actions">
-        <button class="refresh-btn" (click)="refreshDashboard()" [disabled]="isLoading">
+        <!-- <button class="refresh-btn" (click)="refreshDashboard()" [disabled]="isLoading">
           <i class="fas fa-sync"></i> Refresh
-        </button>
-        <button class="view-all-btn" (click)="viewAllGroups()">
-          <i class="fas fa-users"></i> All Groups
+        </button> -->
+        <button class="create-group-btn" (click)="openCreateGroupModal()">
+          <i class="fas fa-plus"></i> Create Group
         </button>
         <button class="transaction-btn" (click)="goToTransactions()">
           <i class="fas fa-wallet"></i> Transaction
         </button>
-        <button class="profile-icon" (click)="goToProfile()">
-          <i class="fas fa-user-circle"></i>
+        <button class="action-btn profile-btn" (click)="goToProfile()">
+          <i class="fas fa-user-circle"></i> Profile
         </button>
         <button class="logout-btn" (click)="logout()">
           <i class="fas fa-sign-out-alt"></i> Logout
@@ -53,9 +53,6 @@
         <section class="groups-section">
           <div class="groups-header">
             <h2>Your Created Groups</h2>
-            <button class="create-group-btn" (click)="openCreateGroupModal()">
-              <i class="fas fa-plus"></i> Create New Group
-            </button>
           </div>
 
           @if (organizerGroups.length === 0) {
