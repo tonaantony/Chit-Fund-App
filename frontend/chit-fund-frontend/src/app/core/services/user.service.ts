@@ -27,7 +27,7 @@ export class UserService {
   }
 
   updateProfile(userEmail: string, userData: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/editprofile/${userEmail}`, userData);
+    return this.http.put<User>(`${this.apiUrl}/edit/${userEmail}`, userData);
   }
 
   private getHeaders(): HttpHeaders {
@@ -55,7 +55,7 @@ leaveGroup(userEmail: string, groupId: string): Observable<any> {
   return this.http.delete(`${this.apiUrl}/groups/${groupId}/leave/${userEmail}`, { headers });
 }
   // ... other methods
-  updateUserProfile(email: string, userData: User): Observable<User> {
+  updateUserProfile(email: string, userData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/edit/${email}`, userData);
   }
 }
