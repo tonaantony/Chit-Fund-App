@@ -1,112 +1,6 @@
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { RouterModule } from '@angular/router';
-// import { AuthService } from '@app/core/services/auth.service';
-// import { UserService } from '@app/core/services/user.service';
-// import { GroupService } from '@app/core/services/group.service';
-// import { User } from '@app/shared/models/user.model';
-
-// interface Group {
-//   groupId: string;
-//   groupName: string;
-//   description: string;
-//   memberCount: number;
-//   status: string;
-//   createdDate: Date;
-//   joinRequests: string[];
-// }
-
-// @Component({
-//   selector: 'app-organizer-dashboard',
-//   standalone: true,
-//   imports: [CommonModule, RouterModule],
-//   templateUrl: './organizerdashboard.component.html',
-//   styleUrls: ['./organizerdashboard.component.css']
-// })
-// export class OrganizerDashboardComponent implements OnInit {
-//   currentUser: User | null = null;
-//   organizerGroups: Group[] = [];
-//   isLoading: boolean = false;
-//   error: string | null = null;
-//   successMessage: string | null = null;
-
-//   constructor(
-//     private authService: AuthService,
-//     private userService: UserService,
-//     private groupService: GroupService
-//   ) {}
-
-//   ngOnInit(): void {
-//     this.loadDashboardData();
-//   }
-
-//   private loadDashboardData(): void {
-//     this.isLoading = true;
-//     this.error = null;
-//     this.currentUser = this.authService.currentUser;
-
-//     if (!this.currentUser?.userId) {
-//       this.error = 'Organizer session not found. Please login again.';
-//       this.isLoading = false;
-//       return;
-//     }
-
-//     this.groupService.getGroupsByOrganizer(this.currentUser.userId).subscribe({
-//       next: (groups) => {
-//         this.organizerGroups = groups;
-//         this.isLoading = false;
-//       },
-//       error: (error) => {
-//         console.error('Error loading dashboard data:', error);
-//         this.error = 'Failed to load dashboard data. Please try again.';
-//         this.isLoading = false;
-//       }
-//     });
-//   }
-
-//   acceptJoinRequest(groupId: string, userId: string): void {
-//     this.isLoading = true;
-//     this.groupService.acceptJoinRequest(groupId, userId).subscribe({
-//       next: () => {
-//         this.successMessage = 'Join request accepted successfully';
-//         this.loadDashboardData(); // Refresh the groups list
-//       },
-//       error: (error) => {
-//         console.error('Error accepting join request:', error);
-//         this.error = 'Failed to accept join request. Please try again.';
-//         this.isLoading = false;
-//       }
-//     });
-//   }
-
-//   refreshDashboard(): void {
-//     this.loadDashboardData();
-//   }
-
-//   viewAllGroups(): void {
-//     window.location.href = '/groups';
-//   }
-
-//   viewGroupDetails(groupId: string): void {
-//     window.location.href = `/groups/${groupId}`;
-//   }
-
-//   goToTransactions(): void {
-//     window.location.href = '/transactions';
-//   }
-
-//   goToProfile(): void {
-//     window.location.href = '/profile';
-//   }
-
-//   formatDate(date: Date): string {
-//     return new Date(date).toLocaleDateString();
-//   }
-// }
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth.service';
 import { UserService } from '@app/core/services/user.service';
 import { GroupService } from '@app/core/services/group.service';
@@ -135,7 +29,8 @@ export class OrganizerDashboardComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private groupService: GroupService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.createGroupForm = this.fb.group({
       groupName: ['', Validators.required],
@@ -250,5 +145,10 @@ export class OrganizerDashboardComponent implements OnInit {
         this.isSubmitting = false;
       }
     });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

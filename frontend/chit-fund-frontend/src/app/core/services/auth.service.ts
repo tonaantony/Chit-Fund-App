@@ -115,6 +115,7 @@ login(loginRequest: any): Observable<any> {
       // Fetch and store user details after successful login
       const userDetails = await this.getUserByEmail(loginRequest.userEmail).toPromise();
       if (userDetails) {
+        // Store complete user details
         await this.storageService.setItem('currentUser', JSON.stringify(userDetails));
         this.currentUserSubject.next(userDetails);
         await this.storageService.setItem(this.roleKey, loginRequest.role);
@@ -176,7 +177,12 @@ login(loginRequest: any): Observable<any> {
   
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    // Clear all stored data
+    this.storageService.removeItem(this.tokenKey);
+    this.storageService.removeItem('currentUser');
+    this.storageService.removeItem(this.roleKey);
+    this.currentUserSubject.next(null);
+    this.token = null;
   }
 
  
@@ -215,6 +221,20 @@ login(loginRequest: any): Observable<any> {
     } catch (error) {
       console.error('Error getting current user:', error);
       return null;
+    }
+  }
+
+  // Add method to initialize user session
+  async initializeUserSession(): Promise<void> {
+    try {
+      const userData = await this.storageService.getItem('currentUser');
+      if (userData) {
+        const user = JSON.parse(userData);
+        this.currentUserSubject.next(user);
+      }
+      this.token = await this.storageService.getItem(this.tokenKey);
+    } catch (error) {
+      console.error('Error initializing user session:', error);
     }
   }
 
