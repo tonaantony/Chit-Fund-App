@@ -75,17 +75,56 @@ export class AuthService {
   //   );
   // }
 
-  login(loginRequest: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, loginRequest, {
-      responseType: 'text' // Add this to handle text response
-    }).pipe(
-      tap(async (token: string) => {
-        await this.storageService.setItem(this.tokenKey, token);
-        this.token = token;
-      }),
-      catchError(this.handleError)
-    );
-  }
+  // login(loginRequest: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/login`, loginRequest, {
+  //     responseType: 'text' // Add this to handle text response
+  //   }).pipe(
+  //     tap(async (token: string) => {
+  //       await this.storageService.setItem(this.tokenKey, token);
+  //       this.token = token;
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  // login(loginRequest: any): Observable<string> {
+  //   return this.http.post<string>(`${this.baseUrl}/login`, loginRequest, {
+  //     responseType: 'text' as 'json'
+  //   }).pipe(
+  //     tap(async (token: string) => {
+  //       await this.storageService.setItem(this.tokenKey, token); // Save token
+  //       this.token = token; // Update the AuthService token
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+  
+
+  getUserByEmail(userEmail: string): Observable<any> {
+  return this.http.get(`http://localhost:8082/api/users/email/${userEmail}`);
+}
+
+login(loginRequest: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/login`, loginRequest, {
+    responseType: 'text',
+  }).pipe(
+    tap(async (token: string) => {
+      await this.storageService.setItem(this.tokenKey, token);
+      this.token = token;
+
+      // Fetch user details using email
+      const userDetails = await this.getUserByEmail(loginRequest.userEmail).toPromise();
+      if (userDetails.userRole) {
+        console.log('User role:', userDetails.userRole);
+        await this.storageService.setItem(this.roleKey, userDetails.userRole);
+      } else {
+        throw new Error('User role not found in response');
+      }
+    }),
+    catchError(this.handleError)
+  );
+}
+
 
   async getToken(): Promise<string | null> {
     return await this.storageService.getItem(this.tokenKey);
@@ -100,14 +139,40 @@ export class AuthService {
     return !!token;
   }
 
-  getUserDetails(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/user/details`).pipe(
+  // getUserDetails(): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}/user/details`).pipe(
+  //     tap(async (user: any) => {
+  //       await this.storageService.setItem(this.roleKey, user.userRole.name);
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  // getUserDetails(): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}/user/details`).pipe(
+  //     tap(async (user: any) => {
+  //       await this.storageService.setItem(this.roleKey, user.userRole.name); // Store user role
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  getUserDetailsByEmail(email: string): Observable<any> {
+    const url = `http://localhost:8082/api/users/${email}`; // Construct the URL
+    return this.http.get(url).pipe(
       tap(async (user: any) => {
-        await this.storageService.setItem(this.roleKey, user.userRole.name);
+        console.log('User details response:', user); // Debug response
+        if (user?.userRole?.name) {
+          await this.storageService.setItem(this.roleKey, user.userRole.name); // Save role to storage
+        } else {
+          throw new Error('User role not found in response');
+        }
       }),
-      catchError(this.handleError)
+      catchError(this.handleError) // Handle errors
     );
   }
+  
+  
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);

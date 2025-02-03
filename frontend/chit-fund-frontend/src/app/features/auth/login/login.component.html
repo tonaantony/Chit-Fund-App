@@ -33,6 +33,25 @@
           [disabled]="isLoading">
       </div>
 
+      <div class="form-group">
+        <label>Select Role</label>
+        <div class="role-options">
+          @for (role of roles; track role.id) {
+            <div class="role-option">
+              <input
+                type="radio"
+                [id]="role.id"
+                name="role"
+                [(ngModel)]="loginData.role"
+                [value]="role.id"
+                required
+                [disabled]="isLoading">
+              <label [for]="role.id">{{role.label}}</label>
+            </div>
+          }
+        </div>
+      </div>
+
       @if (error) {
         <div class="error-message">
           {{ error }}
