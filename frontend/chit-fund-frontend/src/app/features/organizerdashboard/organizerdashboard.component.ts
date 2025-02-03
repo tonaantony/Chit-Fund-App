@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
 export class OrganizerDashboardComponent implements OnInit {
   currentUser: User | null = null;
   organizerGroups: Group[] = [];
-  isLoading: boolean = false;
+  isLoading = false;
   error: string | null = null;
   successMessage: string | null = null;
   showCreateGroupModal = false;
@@ -45,39 +45,110 @@ export class OrganizerDashboardComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // Wait for auth to initialize
+    await this.authService.initializeUserSession();
+    
+    // Get current user from storage if available
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      this.currentUser = JSON.parse(userData);
+    } else {
+      this.currentUser = this.authService.currentUser;
+    }
+
+    console.log('Current user after init:', this.currentUser);
+
+    if (!this.currentUser) {
+      // Try to get user details if we have a token
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userEmail = localStorage.getItem('userEmail');
+          if (userEmail) {
+            const userDetails = await this.userService.getUserByEmail(userEmail).toPromise() as User;
+            this.currentUser = userDetails;
+            this.authService.updateUser(userDetails);
+          }
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+          this.error = 'Failed to load user details';
+          this.router.navigate(['/login']);
+          return;
+        }
+      } else {
+        this.router.navigate(['/login']);
+        return;
+      }
+    }
+
     this.loadDashboardData();
   }
 
-  loadDashboardData(): void {
+// <<<<<<< diya2
+//   loadDashboardData(): void {
+//     this.isLoading = true;
+//     this.error = null;
+    
+//     // Get current user
+//     this.authService.getCurrentUser().then(user => {
+//       this.currentUser = user;
+      
+//       if (!this.currentUser?.userId) {
+//         this.error = 'User session not found. Please login again.';
+//         this.isLoading = false;
+//         return;
+//       }
+
+//       // Fetch only groups created by this organizer
+//       this.groupService.getGroupsByOrganizer(this.currentUser.userId)
+//         .subscribe({
+//           next: (groups) => {
+//             console.log('Fetched organizer groups:', groups);
+//             this.organizerGroups = groups;
+//             this.isLoading = false;
+//           },
+//           error: (error) => {
+//             console.error('Error loading organizer groups:', error);
+//             this.error = 'Failed to load your groups. Please try again.';
+//             this.isLoading = false;
+//           }
+//         });
+//     });
+// =======
+  private loadDashboardData(): void {
+    if (!this.currentUser?.userId) {
+      console.error('No user ID available');
+      this.error = 'Please login to view your dashboard';
+      this.isLoading = false;
+      return;
+    }
+
     this.isLoading = true;
     this.error = null;
     
-    // Get current user
-    this.authService.getCurrentUser().then(user => {
-      this.currentUser = user;
-      
-      if (!this.currentUser?.userId) {
-        this.error = 'User session not found. Please login again.';
-        this.isLoading = false;
-        return;
-      }
-
-      // Fetch only groups created by this organizer
-      this.groupService.getGroupsByOrganizer(this.currentUser.userId)
-        .subscribe({
-          next: (groups) => {
-            console.log('Fetched organizer groups:', groups);
-            this.organizerGroups = groups;
-            this.isLoading = false;
-          },
-          error: (error) => {
-            console.error('Error loading organizer groups:', error);
-            this.error = 'Failed to load your groups. Please try again.';
-            this.isLoading = false;
-          }
-        });
-    });
+    console.log('Loading groups for organizer:', this.currentUser.userId);
+    
+    this.groupService.getGroupsByOrganizer(this.currentUser.userId)
+      .subscribe({
+        next: (groups: Group[]) => {
+          console.log('Raw groups data:', groups);
+          this.organizerGroups = groups.map(group => ({
+            ...group,
+            status: group.status || 'ACTIVE',
+            participants: group.participants || [],
+            createdDate: group.createdDate ? new Date(group.createdDate) : new Date()
+          }));
+          console.log('Processed groups:', this.organizerGroups);
+          this.isLoading = false;
+        },
+        error: (error: Error) => {
+          console.error('Error loading groups:', error);
+          this.error = 'Failed to load your groups. Please try again.';
+          this.isLoading = false;
+        }
+      });
+// >>>>>>> main
   }
 
   acceptJoinRequest(groupId: string, userId: string): void {
