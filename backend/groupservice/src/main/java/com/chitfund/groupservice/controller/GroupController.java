@@ -41,6 +41,11 @@ public class GroupController {
         return groupService.getGroupById(groupId);
     }
 
+    @GetMapping("/name/{groupName}")
+    public Group getGroupByName(@PathVariable String groupName) {
+        return groupService.getGroupByName(groupName);
+    }
+
     @GetMapping("/organizer/{organizerId}")
     public List<Group> getGroupsByOrganizer(@PathVariable String organizerId) {
         List<Group> groups = groupService.getGroupsByOrganizerId(organizerId);

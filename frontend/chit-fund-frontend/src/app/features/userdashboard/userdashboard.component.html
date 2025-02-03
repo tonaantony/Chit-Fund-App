@@ -1,6 +1,30 @@
 <div class="dashboard-container">
     <!-- Header Section -->
     <header class="dashboard-header">
+        <div class="header-content">
+          <div class="user-info">
+            @if (currentUser) {
+              <h1>Welcome, {{ currentUser.userName }}!</h1>
+              <p class="role-badge">{{ currentUser.userRole }}</p>
+            }
+          </div>
+          <div class="header-actions">
+            <button class="action-btn refresh-btn" (click)="refreshDashboard()" [disabled]="isLoading">
+              <i class="fas fa-sync"></i> Refresh
+            </button>
+            <button class="action-btn view-all-btn" (click)="viewAllGroups()">
+              <i class="fas fa-users"></i> All Groups
+            </button>
+            <button class="action-btn transaction-btn" (click)="goToTransactions()">
+              <i class="fas fa-wallet"></i> Transaction
+            </button>
+            <button class="action-btn profile-btn" (click)="goToProfile()">
+              <i class="fas fa-user-circle"></i> Profile
+            </button>
+            <button class="action-btn logout-btn" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
         <div class="user-info">
           @if (currentUser) {
             <h1>Welcome, {{ currentUser.userName }}!</h1>
@@ -128,6 +152,10 @@
                 </div>
                 <p class="group-description">{{ group.description }}</p>
                 <div class="group-meta">
+                  <span class="group-type">Type: {{ group.groupType }}</span>
+                  <span class="total-amount">Amount: ₹{{ group.totalAmount }}</span>
+                  <span class="duration">Duration: {{ group.duration }} months</span>
+                  <span class="interest">Interest: {{ group.interest }}%</span>
                   <span class="member-count">
                     <i class="fas fa-user"></i> {{ group.memberCount }} members
                   </span>

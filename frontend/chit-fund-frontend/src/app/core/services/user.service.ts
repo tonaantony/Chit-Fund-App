@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@app/shared/models/user.model';
 import { AuthService } from './auth.service';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class UserService {
   }
 
   private getHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
+    const token = this.authService.token;
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -45,15 +46,21 @@ export class UserService {
 
   // Add these methods to your existing UserService
 
-getUserGroups(userEmail: string): Observable<any[]> {
-  const headers = this.getHeaders();
-  return this.http.get<any[]>(`${this.apiUrl}/groups/${userEmail}`, { headers });
-}
+  getUserGroups(userId: string): Observable<any[]> {
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/groups/${userId}`, { headers }).pipe(
+      tap(response => console.log('Raw API Response:', response)),
+      catchError(error => {
+        console.error('API Error:', error);
+        throw error;
+      })
+    );
+  }
 
-leaveGroup(userEmail: string, groupId: string): Observable<any> {
-  const headers = this.getHeaders();
-  return this.http.delete(`${this.apiUrl}/groups/${groupId}/leave/${userEmail}`, { headers });
-}
+  leaveGroup(userEmail: string, groupId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.delete(`${this.apiUrl}/groups/${groupId}/leave/${userEmail}`, { headers });
+  }
   // ... other methods
   updateUserProfile(email: string, userData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/edit/${email}`, userData);

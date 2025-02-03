@@ -50,6 +50,10 @@ public class GroupService {
         return groupRepository.findByGroupId(groupId).get();
     }
 
+    public Group getGroupByName(String groupName) {
+        return groupRepository.findByGroupName(groupName).get();
+    }
+
     public List<Group> getGroupsByOrganizerId(String organizerId){
         return groupRepository.findByOrganizerId(organizerId);
     }
