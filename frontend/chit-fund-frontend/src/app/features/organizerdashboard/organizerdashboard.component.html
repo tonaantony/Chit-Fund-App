@@ -103,32 +103,31 @@
             <button class="close-btn" (click)="closeCreateGroupModal()">×</button>
           </div>
           <form [formGroup]="createGroupForm" (ngSubmit)="createGroup()">
-            <div class="form-group">
-              <label for="groupName">Group Name*</label>
-              <input 
-                type="text" 
-                id="groupName" 
-                formControlName="groupName" 
-                placeholder="Enter group name"
-              >
-            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="groupName">Group Name*</label>
+                <input 
+                  type="text" 
+                  id="groupName" 
+                  formControlName="groupName" 
+                  placeholder="Enter group name"
+                >
+                @if (createGroupForm.get('groupName')?.invalid && createGroupForm.get('groupName')?.touched) {
+                  <span class="error-message">Group name is required</span>
+                }
+              </div>
 
-            <div class="form-group">
-              <label for="description">Description*</label>
-              <textarea 
-                id="description" 
-                formControlName="description" 
-                placeholder="Enter group description"
-              ></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="groupType">Group Type*</label>
-              <select id="groupType" formControlName="groupType">
-                <option value="">Select group type</option>
-                <option value="MONTHLY">Monthly</option>
-                <option value="WEEKLY">Weekly</option>
-              </select>
+              <div class="form-group">
+                <label for="groupType">Group Type*</label>
+                <select id="groupType" formControlName="groupType">
+                  <option value="">Select group type</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Weekly">Weekly</option>
+                </select>
+                @if (createGroupForm.get('groupType')?.invalid && createGroupForm.get('groupType')?.touched) {
+                  <span class="error-message">Group type is required</span>
+                }
+              </div>
             </div>
 
             <div class="form-row">
@@ -139,9 +138,29 @@
                   id="totalAmount" 
                   formControlName="totalAmount" 
                   placeholder="Enter total amount"
+                  min="1000"
                 >
+                @if (createGroupForm.get('totalAmount')?.invalid && createGroupForm.get('totalAmount')?.touched) {
+                  <span class="error-message">Valid total amount is required (min: 1000)</span>
+                }
               </div>
 
+              <div class="form-group">
+                <label for="ticketValue">Ticket Value*</label>
+                <input 
+                  type="number" 
+                  id="ticketValue" 
+                  formControlName="ticketValue" 
+                  placeholder="Enter ticket value"
+                  min="100"
+                >
+                @if (createGroupForm.get('ticketValue')?.invalid && createGroupForm.get('ticketValue')?.touched) {
+                  <span class="error-message">Valid ticket value is required (min: 100)</span>
+                }
+              </div>
+            </div>
+
+            <div class="form-row">
               <div class="form-group">
                 <label for="members">Number of Members*</label>
                 <input 
@@ -149,7 +168,26 @@
                   id="members" 
                   formControlName="members" 
                   placeholder="Enter number of members"
+                  min="2"
                 >
+                @if (createGroupForm.get('members')?.invalid && createGroupForm.get('members')?.touched) {
+                  <span class="error-message">At least 2 members required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="interest">Interest Rate (%)*</label>
+                <input 
+                  type="number" 
+                  id="interest" 
+                  formControlName="interest" 
+                  placeholder="Enter interest rate"
+                  min="0"
+                  max="100"
+                >
+                @if (createGroupForm.get('interest')?.invalid && createGroupForm.get('interest')?.touched) {
+                  <span class="error-message">Valid interest rate required (0-100)</span>
+                }
               </div>
             </div>
 
@@ -161,18 +199,53 @@
                   id="duration" 
                   formControlName="duration" 
                   placeholder="Enter duration"
+                  min="1"
                 >
+                @if (createGroupForm.get('duration')?.invalid && createGroupForm.get('duration')?.touched) {
+                  <span class="error-message">Valid duration required</span>
+                }
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="startDate">Start Date*</label>
+                <input 
+                  type="date" 
+                  id="startDate" 
+                  formControlName="startDate" 
+                  [min]="today"
+                >
+                @if (createGroupForm.get('startDate')?.invalid && createGroupForm.get('startDate')?.touched) {
+                  <span class="error-message">Start date is required</span>
+                }
               </div>
 
               <div class="form-group">
-                <label for="interest">Interest Rate (%)</label>
+                <label for="endDate">End Date*</label>
                 <input 
-                  type="number" 
-                  id="interest" 
-                  formControlName="interest" 
-                  placeholder="Enter interest rate"
+                  type="date" 
+                  id="endDate" 
+                  formControlName="endDate"
+                  [min]="createGroupForm.get('startDate')?.value"
                 >
+                @if (createGroupForm.get('endDate')?.invalid && createGroupForm.get('endDate')?.touched) {
+                  <span class="error-message">End date is required</span>
+                }
               </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description*</label>
+              <textarea 
+                id="description" 
+                formControlName="description" 
+                placeholder="Enter group description"
+                rows="3"
+              ></textarea>
+              @if (createGroupForm.get('description')?.invalid && createGroupForm.get('description')?.touched) {
+                <span class="error-message">Description is required</span>
+              }
             </div>
 
             <div class="modal-actions">

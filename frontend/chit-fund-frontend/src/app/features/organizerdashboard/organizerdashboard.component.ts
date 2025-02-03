@@ -24,6 +24,7 @@ export class OrganizerDashboardComponent implements OnInit {
   showCreateGroupModal = false;
   createGroupForm: FormGroup;
   isSubmitting = false;
+  today = new Date().toISOString().split('T')[0]; // For min date validation
 
   constructor(
     private authService: AuthService,
@@ -34,12 +35,15 @@ export class OrganizerDashboardComponent implements OnInit {
   ) {
     this.createGroupForm = this.fb.group({
       groupName: ['', Validators.required],
-      description: ['', Validators.required],
       groupType: ['', Validators.required],
-      totalAmount: ['', [Validators.required, Validators.min(0)]],
+      interest: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
       members: ['', [Validators.required, Validators.min(2)]],
       duration: ['', [Validators.required, Validators.min(1)]],
-      interest: ['', [Validators.min(0), Validators.max(100)]]
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      totalAmount: ['', [Validators.required, Validators.min(1000)]],
+      ticketValue: ['', [Validators.required, Validators.min(100)]],
+      description: ['', Validators.required]
     });
   }
 
@@ -157,36 +161,60 @@ export class OrganizerDashboardComponent implements OnInit {
   }
 
   openCreateGroupModal(): void {
+    this.createGroupForm.reset({
+      groupName: '',
+      description: '',
+      groupType: '',
+      totalAmount: '',
+      members: '',
+      duration: '',
+      interest: '',
+      startDate: '',
+      endDate: '',
+      ticketValue: ''
+    });
     this.showCreateGroupModal = true;
   }
 
   closeCreateGroupModal(): void {
     this.showCreateGroupModal = false;
     this.createGroupForm.reset();
+    this.error = null;
   }
 
   createGroup(): void {
-    if (this.createGroupForm.invalid || !this.currentUser) {
+    if (this.createGroupForm.invalid || this.isSubmitting) {
       return;
     }
 
     this.isSubmitting = true;
+    const formData = this.createGroupForm.value;
+
+    // Create the group object
     const newGroup: Group = {
-      ...this.createGroupForm.value,
-      organizerId: this.currentUser.userId,
+      ...formData,
+      organizerId: this.currentUser?.userId,
       status: 'ACTIVE',
       participants: [],
-      joinRequests: []
+      joinRequests: [],
+      memberCount: 0,
+      createdDate: new Date(),
+      startDate: new Date(formData.startDate),
+      endDate: new Date(formData.endDate)
     };
+
+    console.log('Creating new group:', newGroup);
 
     this.groupService.createGroup(newGroup).subscribe({
       next: (createdGroup) => {
+        console.log('Group created successfully:', createdGroup);
         this.successMessage = 'Group created successfully!';
-        this.loadDashboardData();
         this.closeCreateGroupModal();
+        this.loadDashboardData();
         this.isSubmitting = false;
       },
-      error: (error: Error) => {
+      error: (error) => {
+        console.error('Error creating group:', error);
         this.error = 'Failed to create group. Please try again.';
         this.isSubmitting = false;
       }

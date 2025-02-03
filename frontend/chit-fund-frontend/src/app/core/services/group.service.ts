@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group, ChitCalculationDTO, ChitPlanDTO, JoinRequestResponse } from '@app/shared/models/group.model';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +92,14 @@ export class GroupService {
   }
 
   createGroup(group: Group): Observable<Group> {
-    return this.http.post<Group>(this.apiUrl, group);
+    console.log('Sending create group request:', group);
+    return this.http.post<Group>(`${this.apiUrl}`, group).pipe(
+      tap(response => console.log('Create group response:', response)),
+      catchError(error => {
+        console.error('Error in createGroup:', error);
+        throw error;
+      })
+    );
   }
 
   // getAllGroups(): Observable<Group[]> {
