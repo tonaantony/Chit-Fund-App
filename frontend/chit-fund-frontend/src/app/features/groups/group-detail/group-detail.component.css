@@ -1,250 +1,277 @@
+.details-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
 
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Header Section */
+.details-header {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.title-section h1 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.group-id {
+  display: block;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.header-badges {
+  display: flex;
+  gap: 1rem;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.type-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.description {
+  color: #6c757d;
+  margin: 1rem 0 0;
+  line-height: 1.6;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  margin: 0 0 1rem;
+  color: #2c3e50;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.value {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.organizer-id {
+  color: #1976d2;
+}
+
+/* Participants Section */
+.participants-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.participants-section h3 {
+  margin: 0 0 1.5rem;
+  color: #2c3e50;
+}
+
+.participants-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+th {
+  background: #f8f9fa;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+}
+
+.status.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.no-participants {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Action Section */
+.action-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.join-button {
+  padding: 1rem 2rem;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.join-button:hover {
+  background: #1565c0;
+}
+
+/* Error Message */
+.error-message {
+  text-align: center;
+  padding: 3rem;
+  color: #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .details-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
-  }
-  
-  /* Loading Spinner */
-  .loading-spinner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-  }
-  
-  .spinner {
-    width: 50px;
-    height: 50px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Header Section */
-  .details-header {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-  }
-  
-  .header-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-  
-  .title-section h1 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 2rem;
-    font-weight: 600;
-  }
-  
-  .group-id {
-    display: block;
-    color: #6c757d;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-  
-  .header-badges {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .badge {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-  
-  .type-badge {
-    background: #e3f2fd;
-    color: #1976d2;
-  }
-  
-  .status-badge {
-    background: #e8f5e9;
-    color: #2e7d32;
-  }
-  
-  .description {
-    color: #6c757d;
-    margin: 1rem 0 0;
-    line-height: 1.6;
-  }
-  
-  /* Info Grid */
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  
-  .info-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .info-card h3 {
-    margin: 0 0 1rem;
-    color: #2c3e50;
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  
-  .info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .label {
-    color: #6c757d;
-    font-size: 0.9rem;
-  }
-  
-  .value {
-    color: #2c3e50;
-    font-weight: 500;
-  }
-  
-  .organizer-id {
-    color: #1976d2;
-  }
-  
-  /* Participants Section */
-  .participants-section {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-  }
-  
-  .participants-section h3 {
-    margin: 0 0 1.5rem;
-    color: #2c3e50;
-  }
-  
-  .participants-table {
-    overflow-x: auto;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e9ecef;
-  }
-  
-  th {
-    background: #f8f9fa;
-    color: #2c3e50;
-    font-weight: 600;
-  }
-  
-  .status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-  }
-  
-  .status.active {
-    background: #e8f5e9;
-    color: #2e7d32;
-  }
-  
-  .no-participants {
-    text-align: center;
-    padding: 2rem;
-    color: #6c757d;
-    background: #f8f9fa;
-    border-radius: 8px;
-  }
-  
-  /* Action Section */
-  .action-section {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-  }
-  
-  .join-button {
-    padding: 1rem 2rem;
-    background: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .join-button:hover {
-    background: #1565c0;
-  }
-  
-  /* Error Message */
-  .error-message {
-    text-align: center;
-    padding: 3rem;
-    color: #dc3545;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .details-container {
-      margin: 1rem auto;
-      padding: 0 1rem;
-    }
-  
-    .header-main {
-      flex-direction: column;
-      gap: 1rem;
-    }
-  
-    .header-badges {
-      justify-content: flex-start;
-    }
-  
-    .info-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .participants-table {
-      margin: 0 -1rem;
-    }
-  
-    th, td {
-      padding: 0.75rem;
-    }
+    margin: 1rem auto;
+    padding: 0 1rem;
   }
 
+  .header-main {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header-badges {
+    justify-content: flex-start;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .participants-table {
+    margin: 0 -1rem;
+  }
+
+  th, td {
+    padding: 0.75rem;
+  }
+}
+
+.action-buttons {
+  margin-top: 20px;
+  text-align: center;
+  padding: 15px;
+}
+
+.join-button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.join-button:hover {
+  background-color: #1565c0;
+}
+
+.request-status {
+  text-align: center;
+  color: #4CAF50;
+  padding: 15px;
+  margin-top: 20px;
+  font-style: italic;
+}
   
