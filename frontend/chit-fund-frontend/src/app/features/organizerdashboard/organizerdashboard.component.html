@@ -86,6 +86,21 @@
                       View Details
                     </button>
                   </div>
+                  @if(group.joinRequests && group.joinRequests.length > 0) {
+                    <div class="join-requests-section">
+                      <h4>Join Requests</h4>
+                      <div class="join-requests-list">
+                        @for(userId of group.joinRequests; track userId){
+                          <div class="join-request-item">
+                            <span>User ID: {{ userId }}</span>
+                            <button class="accept-btn" (click)="acceptJoinRequest(group.groupId, userId)">
+                              Accept
+                            </button>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
                 </div>
               }
             </div>

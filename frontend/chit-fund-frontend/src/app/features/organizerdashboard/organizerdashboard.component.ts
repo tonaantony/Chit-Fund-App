@@ -7,7 +7,7 @@ import { GroupService } from '@app/core/services/group.service';
 import { User } from '@app/shared/models/user.model';
 import { Group } from '@app/shared/models/group.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-organizer-dashboard',
   standalone: true,
@@ -31,7 +31,8 @@ export class OrganizerDashboardComponent implements OnInit {
     private userService: UserService,
     private groupService: GroupService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.createGroupForm = this.fb.group({
       groupName: ['', Validators.required],
@@ -121,19 +122,34 @@ export class OrganizerDashboardComponent implements OnInit {
       });
   }
 
+  // acceptJoinRequest(groupId: string, userId: string): void {
+  //   this.isLoading = true;
+  //   this.groupService.acceptJoinRequest(groupId, userId).subscribe({
+  //     next: (response) => {
+  //       this.successMessage = 'Join request accepted successfully';
+  //       this.loadDashboardData(); // Refresh the groups list
+  //     },
+  //     error: (error: Error) => {
+  //       console.error('Error accepting join request:', error);
+  //       this.error = 'Failed to accept join request. Please try again.';
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
+
   acceptJoinRequest(groupId: string, userId: string): void {
-    this.isLoading = true;
-    this.groupService.acceptJoinRequest(groupId, userId).subscribe({
-      next: (response) => {
-        this.successMessage = 'Join request accepted successfully';
-        this.loadDashboardData(); // Refresh the groups list
-      },
-      error: (error: Error) => {
-        console.error('Error accepting join request:', error);
-        this.error = 'Failed to accept join request. Please try again.';
-        this.isLoading = false;
-      }
-    });
+    this.http.post(`http://localhost:8083/api/groups/${groupId}/accept-join/${userId}`,
+{})
+      .subscribe({
+        next: () => {
+          alert('Join request accepted successfully!');
+          this.loadDashboardData(); // Refresh the dashboard
+        }//,
+        // error: (error) => {
+        //   console.error('Error accepting join request:', error);
+        //   alert('Failed to accept join request');
+        // }
+      });
   }
 
   refreshDashboard(): void {
