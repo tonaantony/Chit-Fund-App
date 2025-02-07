@@ -1,0 +1,37 @@
+<div class="monthly-plan-container">
+    @if (loading) {
+      <div class="loading-spinner">Loading monthly plan...</div>
+    } @else if (error) {
+      <div class="error-message">{{error}}</div>
+    } @else if (monthlyPlan) {
+      <h2>Monthly Plan Details</h2>
+      <div class="plan-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Pool Amount (₹)</th>
+              <th>Commission (₹)</th>
+              <th>Winning Bid (₹)</th>
+              <th>Discount (₹)</th>
+              <th>Discount/Member (₹)</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (plan of monthlyPlan.results; track plan.month) {
+              <tr>
+                <td>{{plan.month}}</td>
+                <td>₹{{plan.poolAmount | number:'1.0-0'}}</td>
+                <td>₹{{plan.commission | number:'1.0-0'}}</td>
+                <td>₹{{plan.winningBid | number:'1.0-0'}}</td>
+                <td>₹{{plan.discount | number:'1.0-0'}}</td>
+                <td>₹{{plan.discountPerMember | number:'1.0-0'}}</td>
+                <td>{{monthlyPlan.monthlyDraw[plan.month - 1]}}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>

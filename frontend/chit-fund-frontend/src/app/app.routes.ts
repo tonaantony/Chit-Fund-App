@@ -12,6 +12,7 @@ import { GroupsListComponent } from './features/groups/group-list/group-list.com
 import { GroupDetailsComponent } from './features/groups/group-detail/group-detail.component';
 import { ChitCalculatorComponent } from './features/chit-calculator/chit-calculator.component';
 import { OrganizerDashboardComponent } from './features/organizerdashboard/organizerdashboard.component';
+import { MonthlyPlanComponent } from './features/monthly-plan/monthly-plan.component';
 
 export const appRoutes: Routes = [
  // { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'groups', component: GroupsListComponent },
   { path: 'groups/:id', component: GroupDetailsComponent },
+  { path: 'groups/:id/monthly-plan', component: MonthlyPlanComponent },
   { path: 'chit-calculator', component: ChitCalculatorComponent },
   { path: 'transactions', component: TransactionComponent }
   //{ path: 'groups', component: GroupsComponent }

@@ -111,16 +111,24 @@
         </div>
   
         <!-- Action Button -->
-        @if (userId && !group.participants.includes(userId)) {
-          <div class="action-section">
+        <div class="action-section">
+          @if (userId && !group.participants.includes(userId)) {
             <button class="join-button" (click)="requestToJoin()">
               Request to Join Group
             </button>
-          </div>
-        }
+          }
+          @if (isOrganizer) {
+            <button 
+              class="monthly-plan-button" 
+              [routerLink]="['/groups', group.groupId, 'monthly-plan']">
+              View Monthly Plan
+            </button>
+          }
+        </div>
       </div>
     } @else {
       <div class="error-message">
+
         <i class="fas fa-exclamation-circle"></i>
         <p>Group not found</p>
       </div>
