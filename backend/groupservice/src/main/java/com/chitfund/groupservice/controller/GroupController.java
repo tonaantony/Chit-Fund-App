@@ -122,4 +122,15 @@ public class GroupController {
         return groupService.calculateChit(chitCalculationDTO.getTotalAmount(), chitCalculationDTO.getMonths(),
                 chitCalculationDTO.getMembers(), chitCalculationDTO.getCommission());
     }
+
+    @GetMapping("/{groupId}/monthly-plan")
+    public ResponseEntity<Map<String, Object>> displayMonthlyPlan(
+            @PathVariable String groupId,
+            @RequestParam Double totalAmount,
+            @RequestParam Integer duration,
+            @RequestParam Double interest) {
+        
+        Map<String, Object> response = groupService.displayMonthlyPlan(groupId, totalAmount, duration, interest);
+        return ResponseEntity.ok(response);
+    }
 }

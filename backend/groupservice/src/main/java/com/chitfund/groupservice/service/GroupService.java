@@ -13,7 +13,10 @@ import com.chitfund.groupservice.repository.GroupRepository;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -185,7 +188,29 @@ public class GroupService {
         return chitPlans;
     }
     
+    public Map<String, Object> displayMonthlyPlan(String groupId, Double totalAmount, Integer duration, Double interest) {
+        Group group = getGroupById(groupId);
+        if (totalAmount <= 0 || duration <= 0) {
+            throw new IllegalArgumentException("Invalid totalAmount or duration");
+        }
 
+        List<ChitPlanDTO> results = calculateChit(totalAmount, duration, duration, interest);
+        List<String> userNames = getParticipants(groupId);
+
+        Collections.shuffle(userNames);
+        List<String> monthlyDraw = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            monthlyDraw.add(userNames.get(i % userNames.size()));
+        }
+
+        group.setMonthlyDraw(monthlyDraw);
+        groupRepository.save(group);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("results", results);
+        response.put("monthlyDraw", monthlyDraw);
+        return response;
+    }
     
 
 }
