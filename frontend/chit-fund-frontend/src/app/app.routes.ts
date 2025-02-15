@@ -13,6 +13,7 @@ import { GroupDetailsComponent } from './features/groups/group-detail/group-deta
 import { ChitCalculatorComponent } from './features/chit-calculator/chit-calculator.component';
 import { OrganizerDashboardComponent } from './features/organizerdashboard/organizerdashboard.component';
 import { MonthlyPlanComponent } from './features/monthly-plan/monthly-plan.component';
+import { MonthlyTrackerComponent } from './features/monthly-tracker/monthly-tracker.component';
 
 export const appRoutes: Routes = [
  // { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,7 +31,8 @@ export const appRoutes: Routes = [
   { path: 'groups/:id', component: GroupDetailsComponent },
   { path: 'groups/:id/monthly-plan', component: MonthlyPlanComponent },
   { path: 'chit-calculator', component: ChitCalculatorComponent },
-  { path: 'transactions', component: TransactionComponent }
+  { path: 'transactions', component: TransactionComponent },
+  { path: 'monthly-tracker/:groupId', component: MonthlyTrackerComponent }
   //{ path: 'groups', component: GroupsComponent }
 ];
 

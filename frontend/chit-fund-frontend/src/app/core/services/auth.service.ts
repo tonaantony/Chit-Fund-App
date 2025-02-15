@@ -24,8 +24,9 @@ export class AuthService {
   private tokenKey = 'token';
   private roleKey = 'userRole';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
+  user$ = this.currentUserSubject.asObservable();
   token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  userSubject = this.currentUserSubject.asObservable();
 
 
   // constructor(private http: HttpClient) {
@@ -209,8 +210,8 @@ login(loginRequest: any): Observable<any> {
     return this.currentUserSubject.value;
   }
   updateUser(user: User): void {
-    localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
   // Add method to get current user details
@@ -236,6 +237,22 @@ login(loginRequest: any): Observable<any> {
     } catch (error) {
       console.error('Error initializing user session:', error);
     }
+  }
+
+  isTokenExpired(token: string): boolean {
+    // Decode the token to get the expiration date
+    const payload = this.decodeToken(token);
+    if (!payload || !payload.exp) {
+      return true; // Token is invalid or has no expiration
+    }
+    const expirationDate = new Date(payload.exp * 1000); // Convert to milliseconds
+    return expirationDate < new Date(); // Check if the token is expired
+  }
+
+  private decodeToken(token: string): any {
+    // Decode the JWT token (this is a simple implementation)
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload)); // Decode base64 payload
   }
 
 }
