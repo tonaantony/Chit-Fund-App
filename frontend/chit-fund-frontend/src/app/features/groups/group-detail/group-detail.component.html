@@ -124,6 +124,13 @@
               View Monthly Plan
             </button>
           }
+          @if(isParticipant()) {  
+            <button 
+              class="monthly-tracker-button" 
+              [routerLink]="['/monthly-tracker', group.groupId]">
+              View Monthly Tracker
+            </button>
+          }
         </div>
       </div>
     } @else {
