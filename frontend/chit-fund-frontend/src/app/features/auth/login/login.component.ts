@@ -56,7 +56,7 @@ export class LoginComponent {
   private redirectBasedOnRole(role: string): void {
     switch (role.toUpperCase()) {
       case 'ADMIN':
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admindashboard']);
         break;
       case 'ORGANIZER':
         this.router.navigate(['/organizerdashboard']);

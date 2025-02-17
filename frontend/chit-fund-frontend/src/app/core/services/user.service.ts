@@ -65,4 +65,12 @@ export class UserService {
   updateUserProfile(email: string, userData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/edit/${email}`, userData);
   }
+
+  deactivateUser(userId: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/users/${userId}/deactivate`, {});
+  }
+
+  getUserById(userId: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${userId}`);
+  }
 }

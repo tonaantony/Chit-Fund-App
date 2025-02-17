@@ -14,6 +14,7 @@ import { ChitCalculatorComponent } from './features/chit-calculator/chit-calcula
 import { OrganizerDashboardComponent } from './features/organizerdashboard/organizerdashboard.component';
 import { MonthlyPlanComponent } from './features/monthly-plan/monthly-plan.component';
 import { MonthlyTrackerComponent } from './features/monthly-tracker/monthly-tracker.component';
+import { AdminDashboardComponent } from './features/admindashboard/admindashboard.component';
 
 export const appRoutes: Routes = [
  // { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -22,6 +23,7 @@ export const appRoutes: Routes = [
   //{ path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'userdashboard', component: UserDashboardComponent},
   { path: 'organizerdashboard', component: OrganizerDashboardComponent},
+  { path: 'admindashboard', component: AdminDashboardComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'editprofile', component: EditProfileComponent },

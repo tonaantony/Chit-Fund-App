@@ -102,6 +102,10 @@ export class GroupService {
     );
   }
 
+  deactivateGroup(groupId: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/groups/${groupId}/deactivate`, {});
+  }
+
   // getAllGroups(): Observable<Group[]> {
   //   return this.http.get<Group[]>(this.apiUrl);
   // }

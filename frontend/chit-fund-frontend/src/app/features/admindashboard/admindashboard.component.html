@@ -1,0 +1,145 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="user-info">
+        @if (currentUser) {
+          <h1>Welcome, {{ currentUser.userName }}!</h1>
+          <p class="role-badge admin">Administrator</p>
+        }
+      </div>
+      <div class="header-actions">
+        <button class="action-btn refresh-btn" (click)="refreshDashboard()">
+          <i class="fas fa-sync"></i> Refresh
+        </button>
+        <button class="action-btn logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Messages Section -->
+  @if (error) {
+    <div class="alert alert-error">
+      {{ error }}
+      <button class="close-btn" (click)="error = null">×</button>
+    </div>
+  }
+
+  @if (successMessage) {
+    <div class="alert alert-success">
+      {{ successMessage }}
+      <button class="close-btn" (click)="successMessage = null">×</button>
+    </div>
+  }
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading dashboard data...</p>
+    </div>
+  }
+
+  <!-- Dashboard Content -->
+  @if (!isLoading) {
+    <main class="dashboard-content">
+      <!-- Statistics Cards -->
+      <section class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Users</h3>
+            <p class="stat-value">{{ totalUsers }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Total Groups</h3>
+            <p class="stat-value">{{ totalGroups }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Organizers</h3>
+            <p class="stat-value">{{ totalOrganizers }}</p>
+          </div>
+          <div class="stat-card">
+            <h3>Active Groups</h3>
+            <p class="stat-value">{{ activeGroups }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Users Section -->
+      <section class="data-section">
+        <h2>Users Management</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of allUsers; track user.userId) {
+                <tr>
+                  <td>{{ user.userId }}</td>
+                  <td>{{ user.userName }}</td>
+                  <td>{{ user.userEmail }}</td>
+                  <td>{{ user.userRole }}</td>
+                  <td class="actions">
+                    <button class="view-btn" (click)="viewUserDetails(user.userId)">
+                      View
+                    </button>
+                    <button class="deactivate-btn" (click)="deactivateUser(user.userId)">
+                      Deactivate
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Groups Section -->
+      <section class="data-section">
+        <h2>Groups Management</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Group ID</th>
+                <th>Name</th>
+                <th>Organizer</th>
+                <th>Status</th>
+                <th>Members</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (group of allGroups; track group.groupId) {
+                <tr>
+                  <td>{{ group.groupId }}</td>
+                  <td>{{ group.groupName }}</td>
+                  <td>{{ group.organizerId }}</td>
+                  <td>{{ group.status }}</td>
+                  <td>{{ group.participants?.length || 0 }}</td>
+                  <td class="actions">
+                    <button class="view-btn" (click)="viewGroupDetails(group.groupId)">
+                      View
+                    </button>
+                    <button class="deactivate-btn" (click)="deactivateGroup(group.groupId)">
+                      Deactivate
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  }
+</div>
