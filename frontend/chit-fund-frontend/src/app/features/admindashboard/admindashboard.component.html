@@ -89,10 +89,10 @@
                   <td>{{ user.userEmail }}</td>
                   <td>{{ user.userRole }}</td>
                   <td class="actions">
-                    <button class="view-btn" (click)="viewUserDetails(user.userId)">
-                      View
+                    <button class="view-btn" (click)="viewUserDetails(user.userId!)" [disabled]="!user.userId">
+                      View Details
                     </button>
-                    <button class="deactivate-btn" (click)="deactivateUser(user.userId)">
+                    <button class="deactivate-btn" (click)="deactivateUser(user.userId!)" [disabled]="!user.userId">
                       Deactivate
                     </button>
                   </td>
