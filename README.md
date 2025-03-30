@@ -13,7 +13,7 @@ The **Chit Fund Management System** is a microservices-based application that mo
 
 ## Tech Stack
 - **Backend**: Spring Boot (Java), WebFlux, Spring Data JPA
-- **Frontend**: React, Streamlit (for AI chatbot integration)
+- **Frontend**: Angular CLI
 - **Database**: MySQL
 - **AI Chatbot**: Gemini API for user assistance
 - **Communication**: WebClient for microservice interaction
